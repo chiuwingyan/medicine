@@ -8,11 +8,12 @@
 </template>
 
 <script>
+
 export default {
   name: 'app'
 }
 </script>
 
-<style lang="scss" scoped="" type="text/css">
+<style lang="scss"  type="text/css">
 
 </style>

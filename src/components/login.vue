@@ -1,7 +1,11 @@
 <template>
   <div class="login">
-    登录
-      <el-button type="success" @click="login">登录</el-button>
+ 
+     <el-form ref="form" :model="form" label-width="80px">
+  <el-form-item label="用户名">
+    <el-input v-model="form.name" class="user-input"></el-input>
+  </el-form-item>
+  </el-form>
   </div>
 </template>
 
@@ -10,7 +14,9 @@ export default {
 
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      form:{
+        name:''
+      }
     }
   },
   methods:{
@@ -23,18 +29,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped="" type="text/css">
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.user-input{
+  width: 204px;
 }
 </style>

@@ -13,11 +13,11 @@
     </span>
     <el-input v-model="form.name" type="text"/>
   </el-form-item>
-   <el-form-item label="" prop="pass">
+   <el-form-item label="" prop="password">
      <span class="svg-container">
       <i class="iconfont icon-denglu1"></i>
     </span>
-    <el-input type="password" v-model="form.pass" auto-complete="off"/>
+    <el-input type="password" v-model="form.password" auto-complete="off"/>
   </el-form-item>
  <el-button type="primary" style="width:100%;margin-bottom:30px;"  @click="onSubmit">登录</el-button>
   </el-form>
@@ -30,34 +30,55 @@ export default {
   data () {
     
     return {
+      dialogVisible:false,
       form:{
         name:'',
         pass:''
       },
       loginRules: {
         name: [{ required: true, trigger: 'blur'}],
-        pass: [{ required: true, trigger: 'blur'}]
+        password: [{ required: true, trigger: 'blur'}]
       },
     }
   },
   methods:{
+    
       onSubmit(){
-        console.log(this.form.name,this.form.pass) 
+          //console.log(this.form.name,this.form.password) 
+        this.$refs.form.validate((valid) => {
+      let that=this;
+      if (valid) {
+       console.log(this.form.name,this.form.pass) 
         this.$http.post('http://39.108.174.244:9090/oauth/login',{
         "id": 0,
         "isDisabled": 0,
         "page": 0,
-        "password": this.form.pass,
+        "password": this.form.password,
         "realName": "string",
         "roleId": 0,
         "rows": 0,
         "username": this.form.name
         }).then(function (response) {
-        console.log(response);
+           console.log(response);
+        if(response.data.statusCode!==200){
+         that.$alert('用户名或密码错误','提示');
+       
+        }
         })
         .catch(function (error) {
           console.log(error);
         });
+
+      } else {
+
+       
+
+        return false;
+
+      }
+
+    });
+        
             }
         }
       }

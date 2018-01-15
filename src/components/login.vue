@@ -63,6 +63,16 @@ export default {
         if(response.data.statusCode!==200){
          that.$alert('用户名或密码错误','提示');
        
+        }else{
+          localStorage.setItem("token",response.data.data.accessToken); 
+          console.log(localStorage.getItem("token") );
+          if(response.data.data.id===2){ //系统管理员
+            that.$router.push('/root');
+          }else if(response.data.data.id===1){//仓库管理员
+            that.$router.push('/manager');
+          }else if(response.data.data.id===3){//收银员
+            that.$router.push('/cashier');
+          }
         }
         })
         .catch(function (error) {

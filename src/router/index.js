@@ -18,12 +18,20 @@ export default new Router({
       component: Login
     },
     {
-      path:'/main',
-      component: Main
-    },
-    {
       path:'/root',
-      component: Root
+      component: Root,
+      redirect:'/root/main/root',
+      children:[
+        {
+          path:'main/:type',
+          component:Main,
+          name:'首页'
+        },
+        {
+          path:'2',
+          name:'2',
+        }
+      ]
     },
     {
       path: '/cashier',

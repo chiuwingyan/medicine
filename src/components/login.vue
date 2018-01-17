@@ -4,7 +4,7 @@
 
      <el-form ref="form" :model="form"  :rules="loginRules" class="login-form">
        <div class="title-container">
-        <h3 class="title">药房管理系统</h3>
+        <h3 class="title">药店管理系统</h3>
        
       </div>
   <el-form-item label="" prop="name">
@@ -172,5 +172,12 @@ $light_gray:#eee;
     bottom: 28px;
   }
 
-    
+html{
+  height: 100%;
+  width: 100%;
+}
+body{
+  width: 100%;
+  height: 100%;
+}
 </style>

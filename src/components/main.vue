@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-   main
+
   </div>
 </template>
 
@@ -9,11 +9,14 @@ export default {
 
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+     type:''
     }
   },
   methods:{
       
+  },
+  created(){
+    //console.log(this.$route.matched)
   }
 }
 </script>

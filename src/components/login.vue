@@ -66,11 +66,11 @@ export default {
         }else{
           localStorage.setItem("token",response.data.data.accessToken); 
           console.log(localStorage.getItem("token") );
-          if(response.data.data.id===2){ //系统管理员
+          if(response.data.data.role_id===1){ //系统管理员
             that.$router.push('/root');
-          }else if(response.data.data.id===1){//仓库管理员
+          }else if(response.data.data.role_id===2){//仓库管理员
             that.$router.push('/manager');
-          }else if(response.data.data.id===3){//收银员
+          }else if(response.data.data.role_id===5){//收银员
             that.$router.push('/cashier');
           }
         }

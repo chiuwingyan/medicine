@@ -28,8 +28,9 @@ export default new Router({
           name:'首页'
         },
         {
-          path:'2',
-          name:'2',
+          path: 'purchase-exl',
+          
+          name:'进货统计报表',
         }
       ]
     },

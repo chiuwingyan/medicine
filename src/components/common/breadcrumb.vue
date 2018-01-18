@@ -46,7 +46,7 @@ export default {
     margin-left: 10px;
     .no-redirect {
     display:inline-block;
-      width:96px;
+      min-width:96px;
       height:25px;
       line-height:25px;
       color: #fff;
@@ -54,18 +54,22 @@ export default {
       background:#42b983;
       border-color:#42b983;
       text-align:center;
+      padding:0 10px;
+      box-sizing: border-box;
     }
   }
   .el-breadcrumb__inner{
       a{
       display:inline-block;
-      width:96px;
+      min-width:96px;
       height:25px;
       line-height:25px;
       color:#495060;
       border:1px solid #d8dce5;
       background:#fff;
       text-align:center;
+      padding:0 10px;
+      box-sizing: border-box;
       }
      
   }

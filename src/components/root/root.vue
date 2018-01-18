@@ -2,7 +2,7 @@
   <el-container>
   
 
-    <el-aside>
+    <el-aside style="width:230px;">
       <el-col :span="12">
     <el-menu
       :default-active="$route.path" 
@@ -62,7 +62,7 @@ export default {
 <style lang="scss"  type="text/css">
 .el-col-12{
   width: 95%;
-  height: 921px;
+  height: 632px;
   background-color:#545c64; 
   border-radius: 5px;
 }
@@ -98,6 +98,6 @@ export default {
   border-radius:7px;
 }
 .el-container{
-  width:1893px;
+ // width:1893px;
 }
 </style>

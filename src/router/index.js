@@ -29,7 +29,6 @@ export default new Router({
         },
         {
           path: 'purchase-exl',
-          
           name:'进货统计报表',
         }
       ]

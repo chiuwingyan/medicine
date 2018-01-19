@@ -1,9 +1,8 @@
 <template>
-  <el-container>
-  
 
-    <el-aside style="width:230px;">
-      <el-col :span="12">
+  <el-container style="height:100%">
+    <el-aside >
+      <el-col :span="24">
     <el-menu
       :default-active="$route.path" 
       class="el-menu-vertical-demo"
@@ -33,8 +32,10 @@
         <span slot="title">导航三</span>
       </el-menu-item>
     </el-menu>
-  </el-col>
+      </el-col>
     </el-aside>
+     
+  
      <el-container>
        <el-header style="height:90px;"><div class="top"><span class="header">药店管理系统 <span class="type">系统管理员版</span></span></div>
        <bread></bread></el-header>
@@ -46,6 +47,7 @@
       </section>
        </el-main>
   </el-container>
+   
 </el-container>
   
 </template>
@@ -89,6 +91,7 @@ export default {
 
 .el-aside{
   border-radius:5px;
+  background-color:rgb(84,92,100);
   .el-menu{
     width:100%;
   }

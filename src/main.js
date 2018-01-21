@@ -10,14 +10,23 @@ import { Loading } from 'element-ui'
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI);
+Vue.use(router);
 /* eslint-disable no-new */
 let loading;
 axios.interceptors.request.use(function (config) {
   console.log('loading')
+  console.log('route', router.match(location))
   loading = Loading.service({ fullscreen: true, text: '疯狂加载中' });
+  //console.log(config.headers);
+  if (localStorage.getItem('token') != null && router.match(location).hash !== '#/login'){
+    config.headers['Authorization']= `Bearer ${localStorage.getItem('token')}`;//添加请求头
+    console.log('Authorization');
+  }
   return config;
 }, function (error) {
   // 对请求错误做些什么
+  console.log(error);
+  loading.close();
   return Promise.reject(error);
 });
 

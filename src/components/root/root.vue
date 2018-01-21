@@ -1,7 +1,7 @@
 <template>
 
   <el-container style="height:100%">
-    <el-aside >
+    <el-aside style="width:240px">
       <el-col :span="24">
     <el-menu
       :default-active="$route.path" 
@@ -20,16 +20,16 @@
         </template>
         <el-menu-item-group>
            <template slot="title">仓库统计报表</template>
-          <el-menu-item index="/root/2">进货统计报表</el-menu-item>
+          <el-menu-item index="/root/purchase-exl">进货统计报表</el-menu-item>
           <el-menu-item index="">出货统计报表</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
           <el-menu-item index="1-3">销售统计报表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="3">
+      <el-menu-item index="/root/medicine-list">
         <i class="el-icon-setting"></i>
-        <span slot="title">导航三</span>
+        <span slot="title">查看药品列表</span>
       </el-menu-item>
     </el-menu>
       </el-col>
@@ -99,6 +99,7 @@ export default {
 .el-main{
   background-color:#f0f2f5;
   border-radius:7px;
+  //overflow: scroll;
 }
 .el-container{
  // width:1893px;

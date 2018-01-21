@@ -1,6 +1,6 @@
 <template>
   <div >
-<el-button type="primary">主要按钮</el-button>
+<el-button type="primary" @click="test">主要按钮</el-button>
 
   </div>
   
@@ -9,7 +9,18 @@
 <script>
 
 export default {
-
+methods:{
+  test(){
+     console.log('route',this.$route);
+  this.$http.get('http://39.108.174.244:9090/medicine/getMedicineList')
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (response) {
+    console.log(response);
+  });
+  }
+}
 }
 </script>
 

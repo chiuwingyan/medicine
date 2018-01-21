@@ -65,7 +65,9 @@ export default {
        
         }else{
           localStorage.setItem("token",response.data.data.accessToken); 
+          localStorage.setItem("userId",response.data.data.id); 
           console.log(localStorage.getItem("token") );
+          console.log(localStorage.getItem("userId") );
           if(response.data.data.role_id===1){ //系统管理员
             that.$router.push('/root');
           }else if(response.data.data.role_id===2){//仓库管理员

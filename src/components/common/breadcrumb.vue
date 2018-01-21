@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style lang="scss"  type="text/css">
+<style lang="scss"  type="text/css" scoped="">
 .app-breadcrumb.el-breadcrumb {
     display: inline-block;
     font-size: 15px;

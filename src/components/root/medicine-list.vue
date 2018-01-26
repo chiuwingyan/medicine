@@ -11,12 +11,12 @@
     <el-input v-model="formInline.barCode" placeholder="条形码" ref="barCode"></el-input>
   </el-form-item>
   <el-form-item label="">
-    <el-select v-model="formInline.medicineType" placeholder="药品类型" ref="medicineType" value-key="id">
+    <el-select v-model="type" placeholder="药品类型" ref="medicineType" clearable>
       <el-option v-for="item in formInline.medicineType" :key="item.name" :label="item.name" :value="item.id"></el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="">
-    <el-select v-model="formInline.manufacturer" placeholder="厂商" ref="manufacturer" value-key="id">
+    <el-select v-model="facturer" placeholder="厂商" ref="manufacturer" value-key="id" clearable>
       <el-option v-for="item in formInline.manufacturer" :key="item.name" :label="item.name" :value="item.id"></el-option>
     </el-select>
   </el-form-item>
@@ -101,7 +101,14 @@ export default {
         medicineType:null,
         manufacturer:null,
         barCode:''
-        }
+        },
+        type:undefined,// 药品类型双向绑定的定义
+        facturer:undefined,//厂商的双向绑定的定义
+        postType:null,   //提交表单的药品类型
+        postFacturer:null, //提交表单的厂商信息
+        postNname:'',
+        postCode:'',
+        postBarcode:''
       }
     },
     methods:{
@@ -121,15 +128,16 @@ export default {
           params: {
             page: this.page.pageNo,
             rows:this.page.pageSize,
-            code:this.formInline.code,
-            medicineName:this.formInline.medicineName,
-            manufacturer:this.formInline.manufacturer,
-            // type:this.formInline.type,
-            // barCode:this.formInline.barCode
+            medicineName:this.postNname,
+            code:this.postCode,
+            type:this.postType,
+            manufacturer:this.postFacturer
+           // barCode:this.postBarcode
+
           }
-  })
+        })
       .then(function (response) {
-      //console.log(response);
+      console.log(response);
       that.tableData=response.data.data.data;
       that.page.pageNo=response.data.data.pageNo;
       that.page.totalCount=response.data.data.totalCount;
@@ -145,7 +153,13 @@ export default {
       this.$nextTick( this.getmedicinelist());
     },
     search(){
-
+    console.log(this.$refs.medicineType.value,this.$refs.manufacturer.value,this.formInline.code,this.formInline.medicineName,this.formInline.barCode)
+    this.postType=this.$refs.medicineType.value;
+    this.postFacturer=this.$refs.manufacturer.value;
+    this.postCode=this.formInline.code;
+    this.postNname=this.formInline.medicineName;
+    this.postbarCode=this.formInline.barCode;
+    this.getmedicinelist();
     }
   
 }

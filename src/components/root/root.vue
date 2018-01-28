@@ -21,16 +21,38 @@
         <el-menu-item-group>
            <template slot="title">仓库统计报表</template>
           <el-menu-item index="/root/purchase-exl">进货统计报表</el-menu-item>
-          <el-menu-item index="">出货统计报表</el-menu-item>
+          <el-menu-item index="">退货统计报表</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
-          <el-menu-item index="1-3">销售统计报表</el-menu-item>
+        
+           <template slot="title">销售统计报表</template>
+          <el-menu-item index="/root/purchase-exl">售出统计报表</el-menu-item>
+          <el-menu-item index="">退货统计报表</el-menu-item>
         </el-menu-item-group>
+       
       </el-submenu>
       <el-menu-item index="/root/medicine-list">
         <i class="el-icon-setting"></i>
         <span slot="title">查看药品列表</span>
       </el-menu-item>
+        <el-submenu index="">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>查看统计报表</span>
+        </template>
+        <el-menu-item-group>
+           <template slot="title">仓库统计报表</template>
+          <el-menu-item index="/root/purchase-exl">进货统计报表</el-menu-item>
+          <el-menu-item index="">退货统计报表</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group>
+        
+           <template slot="title">销售统计报表</template>
+          <el-menu-item index="/root/purchase-exl">售出统计报表</el-menu-item>
+          <el-menu-item index="">退货统计报表</el-menu-item>
+        </el-menu-item-group>
+       
+      </el-submenu>
     </el-menu>
       </el-col>
     </el-aside>

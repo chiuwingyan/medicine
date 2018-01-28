@@ -47,6 +47,10 @@
       prop="medicineType"
       label="药品类型">
     </el-table-column>
+     <el-table-column
+      prop="barCode"
+      label="条形码">
+    </el-table-column>
     <el-table-column
       prop="stockNum"
       label="药品库存">
@@ -60,7 +64,7 @@
        <template slot-scope="scope">
       <el-button
           size="mini"
-         type="primary" plain>查看详情</el-button>
+         type="primary" plain @click="showDetail(scope.row.id)">查看详情</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -70,6 +74,35 @@
   :total="page.totalCount" v-show="page.pageCount" :page-count="page.pageCount" :page-size="page.pageSize"
    @current-change="changepage">
 </el-pagination>
+<!-- 弹框内容 -->
+<el-dialog
+  title="药品详情"
+  :visible.sync="dialogVisible"
+  width="30%"
+ >
+  <el-form class="detail" style="text-align:center;">
+            <el-form-item label="药品图片">
+           <img :src="item.fileUrl" alt="" v-for="(item,index) in detail.imgUrls" :key="index" />
+            </el-form-item>
+            <el-form-item label="生产日期">
+              <div class="content">{{detail.productionDate}}</div>
+            </el-form-item>
+            <el-form-item label="保质期">
+              <div class="content">{{detail.validity}}</div>
+            </el-form-item>
+             <el-form-item label="药品介绍">
+              <div class="content">{{detail.detailDesc}}</div>
+            </el-form-item>
+            <el-form-item label="生产规格">
+              <div class="content">{{detail.productionSpecifications}}</div>
+            </el-form-item>
+       
+   
+              <el-button type="primary" round @click="dialogVisible = false" class="close">关闭</el-button>
+      
+          </el-form>
+  
+</el-dialog>
   </div>
 </template>
 
@@ -108,7 +141,9 @@ export default {
         postFacturer:null, //提交表单的厂商信息
         postNname:'',
         postCode:'',
-        postBarcode:''
+        postBarcode:'',
+        dialogVisible:false,
+        detail:{}
       }
     },
     methods:{
@@ -122,7 +157,7 @@ export default {
         return this.$http.get('http://39.108.174.244:9090/manufacturer/getManufacturerList?rows=100');
       },
       getmedicinelist(){
-        let that=this
+        let that=this;
         this.$http.get('http://39.108.174.244:9090/medicine/getMedicineList',
         {
           params: {
@@ -138,8 +173,12 @@ export default {
         })
       .then(function (response) {
       console.log(response);
+      if(response.data.data.pageNo===0){
+        that.page.pageNo=1
+      }else{
+        that.page.pageNo=response.data.data.pageNo;
+      }
       that.tableData=response.data.data.data;
-      that.page.pageNo=response.data.data.pageNo;
       that.page.totalCount=response.data.data.totalCount;
       that.page.pageCount=response.data.data.pageCount;
       })
@@ -154,14 +193,30 @@ export default {
     },
     search(){
     console.log(this.$refs.medicineType.value,this.$refs.manufacturer.value,this.formInline.code,this.formInline.medicineName,this.formInline.barCode)
-    this.postType=this.$refs.medicineType.value;
-    this.postFacturer=this.$refs.manufacturer.value;
+   
+       this.postType=this.$refs.medicineType.value;
+        this.postFacturer=this.$refs.manufacturer.value;
     this.postCode=this.formInline.code;
     this.postNname=this.formInline.medicineName;
     this.postbarCode=this.formInline.barCode;
     this.getmedicinelist();
+    },
+    showDetail(index){
+      console.log(index);
+      this.$http.get(`http://39.108.174.244:9090/medicine/getMedicineDetail/${index}`)
+      .then( (response) => {
+        console.log(response);
+        if(response.data.statusCode===200){
+          this.detail=response.data.data;
+          this.dialogVisible=true;
+        }
+       
+      })
+      .catch(function (response) {
+        console.log(response);
+      })
+    
     }
-  
 }
     }
 
@@ -172,12 +227,28 @@ export default {
   margin:20px auto;
   text-align: center; 
 }
+.detail{
+  .content{
+    font-size: 16px;
+    word-wrap: break-word; 
+    word-break: normal; 
+  }
+  .close{
+
+  }
+}
+
 </style>
 <style lang="scss"  type="text/css">
 .search-form{
   margin-bottom:10px;
   .el-form-item{
     width:15%;
+  }
+}
+.detail{
+  .el-form-item{
+    text-align: center;
   }
 }
 </style>

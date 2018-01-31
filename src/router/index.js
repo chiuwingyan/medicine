@@ -7,6 +7,8 @@ import Cashier from '@/components/cashier/cashier'
 import Manager from '@/components/manager/manager'
 import purchaseExl from '@/components/root/purchase-exl'
 import medicineList from '@/components/root/medicine-list'
+import userList from '@/components/root/user-list'
+
 Vue.use(Router)
 
 export default new Router({
@@ -38,7 +40,13 @@ export default new Router({
           path: 'medicine-list',
           component: medicineList,
           name: '药品列表',
+        },
+        {
+          path: 'user-list',
+          component: userList,
+          name: '用户列表',
         }
+
       ]
     },
     {

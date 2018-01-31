@@ -40,7 +40,7 @@
           <i class="el-icon-printer"></i>
           <span>用户管理</span>
         </template>
-          <el-menu-item index="1-4-1">查看用户列表</el-menu-item>
+          <el-menu-item index="/root/user-list">查看用户列表</el-menu-item>
         </el-submenu>
     </el-menu>
       </el-col>

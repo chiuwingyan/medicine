@@ -12,6 +12,8 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(router);
 /* eslint-disable no-new */
+axios.defaults.timeout = 5000;       
+axios.defaults.baseURL = 'http://39.108.174.244:9090/';
 let loading;
 axios.interceptors.request.use(function (config) {
   console.log('loading')

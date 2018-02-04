@@ -6,7 +6,7 @@
     border
     style="width: 90%" class="table">
     <el-table-column
-      prop="realName"
+      prop="userName"
       label="用户名"
       width="180">
     </el-table-column>
@@ -16,8 +16,8 @@
       width="180">
     </el-table-column>
       <el-table-column
-      prop="isDisabled"
-      label="是否可用"
+      prop="realName"
+      label="真实姓名"
       width="180">
     </el-table-column>
      <el-table-column
@@ -25,7 +25,10 @@
        <template slot-scope="scope">
       <el-button
           size="mini"
-         type="success"  @click="showDetail(scope.row.id)" icon="el-icon-edit">修改</el-button>
+         type="success"  @click="showDetail(scope.row.id)" icon="el-icon-edit">修改信息</el-button>
+         <el-button
+          size="mini"
+         type="primary" @click="showDetail(scope.row.id)" icon="el-icon-edit-outline">重置密码</el-button>
          <el-button
           size="mini"
          type="danger" icon="el-icon-delete" @click="comfirmDel(scope.row.id)">删除</el-button>
@@ -44,7 +47,7 @@
   :visible.sync="dialogChange"
   width="30%"
  >
-  <el-form class="detail" style="text-align:center;">
+  <el-form class="detail" style="text-align:center;" >
             
            
       
@@ -57,26 +60,49 @@
   :visible.sync="dialogAdd"
   width="30%"
  >
-  <el-form class="detail" style="text-align:center;">
-            
-           
-      
+  <el-form ref="addForm" label-width="100px" :model="addUser" :rules="addRules">
+  <el-form-item label="用户名" prop="username">
+    <el-input v-model="addUser.username"></el-input>
+  </el-form-item>       
+  <el-form-item label="真实姓名" prop="realname">
+    <el-input v-model="addUser.realname"></el-input>
+  </el-form-item>          
+  <el-form-item label="密码" prop="password">
+    <el-input v-model="addUser.password" type="password"></el-input>
+  </el-form-item>     
+  <el-form-item label="角色" prop="roleId">
+    <el-radio-group v-model="addUser.roleId">
+      <el-radio :label="item" v-for="(item,index) in rule" :key="index">{{item.roleName}}</el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="submitAdd">提交</el-button>
+    <el-button @click="closeAdd">取消</el-button>
+  </el-form-item>
 </el-form>
   
 </el-dialog>
 
   </div>
-  </div>
-  
 </template>
 
 <script>
-
+ let rule=[{id:1,roleName:'系统管理员'},{id:5,roleName:'销售员'},{id:2,roleName:'仓库管理员'}];
 export default {
     created(){
         this.getUserlist();
     },
  data(){
+     var checkPass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (value.length<6) {
+             callback(new Error('密码不能小于6位'));
+          }
+          callback();
+        }
+      };
      return {
          userList:[],
          page:{
@@ -86,12 +112,32 @@ export default {
             pageCount:null,
         },
         dialogChange:false,
-        dialogAdd:false
+        dialogAdd:false,
+        addUser:{
+          username:'',
+          realname:'',
+          password:'',
+          roleId:null
+        },
+        rule:rule,
+        addRules:{
+          username:[{ required: true, message: '用户名不能为空哦', trigger: 'blur'  }
+          ],
+          realname: [
+            { required: true, message: '真实姓名不能为空', trigger: 'blur'  }
+          ],
+          password: [
+            {required: true,  validator: checkPass, trigger: 'blur' }
+          ],
+          roleId: [
+            { required: true, message: '请选择角色', trigger: 'blur' }
+          ]
+      }
      }
  },
  methods:{
      getUserlist(){
-         this.$http.get('http://39.108.174.244:9090/user/getUserList',
+         this.$http.get('user/getUserList',
         {
           params: {
             page: this.page.pageNo,
@@ -100,7 +146,7 @@ export default {
         })
       .then( (response) => {
       console.log(response);
-      if(response.status===200){
+      if(response.data.statusCode===200){
           this.userList=response.data.data.data;
             this.page.totalCount=response.data.data.totalCount;
             this.page.pageCount=response.data.data.pageCount;
@@ -121,7 +167,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            this.$http.delete(`http://39.108.174.244:9090/user/deleteUser/${id}`)
+            this.$http.delete(`user/deleteUser/${id}`)
              .then( (response) => {
                 console.log(response);
                 if(response.status===200){
@@ -147,6 +193,44 @@ export default {
       },
       openAdd(){
           this.dialogAdd=true;
+      },
+      submitAdd(){
+        this.$refs.addForm.validate((valid) => {
+          if (valid) {
+            //alert(this.addUser.roleId.id);
+            this.$http.post('user/addUser',
+              {
+           
+                  username: this.addUser.username,
+                  realName:this.addUser.realname,
+                  password:this.addUser.password,
+                  roleId:this.addUser.roleId.id
+                
+              })
+            .then( (response) => {
+            console.log(response);
+             if(response.data.statusCode===200){
+               this.dialogAdd=false;
+                 this.$message({
+                  message: '添加成功！',
+                  type: 'success'
+                });
+                this.getUserlist();
+            }else{
+              this.$message.error(response.data.statusMsg);
+            }
+            })
+            .catch(function (response) {
+              console.log(response);
+            })
+                } else {
+                  return false;
+                }
+              });
+      },
+      
+      closeAdd(){
+         this.dialogAdd=false;
       }
     }
  }
@@ -159,6 +243,9 @@ export default {
 }
 .pagination{
     text-align: center;
+}
+.el-radio+.el-radio {
+    margin-left: 5px;
 }
 
 </style>

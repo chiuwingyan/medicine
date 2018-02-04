@@ -49,7 +49,7 @@ export default {
       let that=this;
       if (valid) {
        console.log(this.form.name,this.form.pass) 
-        this.$http.post('http://39.108.174.244:9090/oauth/login',{
+        this.$http.post('oauth/login',{
         "id": 0,
         "isDisabled": 0,
         "page": 0,

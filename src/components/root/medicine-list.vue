@@ -151,14 +151,14 @@ export default {
         return this.getmedicinelist();
       },
       getType(){
-        return this.$http.get('http://39.108.174.244:9090/medicine/getMedicineTypeList?rows=100');
+        return this.$http.get('medicine/getMedicineTypeList?rows=100');
       },
       getFactory(){
-        return this.$http.get('http://39.108.174.244:9090/manufacturer/getManufacturerList?rows=100');
+        return this.$http.get('manufacturer/getManufacturerList?rows=100');
       },
       getmedicinelist(){
         let that=this;
-        this.$http.get('http://39.108.174.244:9090/medicine/getMedicineList',
+        this.$http.get('medicine/getMedicineList',
         {
           params: {
             page: this.page.pageNo,
@@ -203,7 +203,7 @@ export default {
     },
     showDetail(index){
       console.log(index);
-      this.$http.get(`http://39.108.174.244:9090/medicine/getMedicineDetail/${index}`)
+      this.$http.get(`medicine/getMedicineDetail/${index}`)
       .then( (response) => {
         console.log(response);
         if(response.data.statusCode===200){

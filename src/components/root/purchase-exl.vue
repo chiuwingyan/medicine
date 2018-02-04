@@ -12,7 +12,7 @@ export default {
 methods:{
   test(){
      console.log('route',this.$route);
-  this.$http.get('http://39.108.174.244:9090/medicine/getMedicineList')
+  this.$http.get('medicine/getMedicineList')
   .then(function (response) {
     console.log(response);
   })

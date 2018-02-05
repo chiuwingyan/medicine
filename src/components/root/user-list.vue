@@ -28,7 +28,7 @@
          type="success"  @click="showDetail(scope.row.id)" icon="el-icon-edit">修改信息</el-button>
          <el-button
           size="mini"
-         type="primary" @click="showDetail(scope.row.id)" icon="el-icon-edit-outline">重置密码</el-button>
+         type="primary" @click="resetPass(scope.row.id)" icon="el-icon-edit-outline">重置密码</el-button>
          <el-button
           size="mini"
          type="danger" icon="el-icon-delete" @click="comfirmDel(scope.row.id)">删除</el-button>
@@ -47,7 +47,7 @@
   :visible.sync="dialogChange"
   width="30%"
  >
-  <el-form class="detail" style="text-align:center;" >
+  <el-form  style="text-align:center;" >
             
            
       
@@ -231,6 +231,35 @@ export default {
       
       closeAdd(){
          this.dialogAdd=false;
+      },
+      resetPass(id){
+         this.$confirm('确定要为此用户重置密码为默认密码？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+           this.$http.put(`user/resetUserPwd/${id}`)
+            .then( (response) => {
+            console.log(response);
+            if(response.data.statusCode===200){
+              this.$message({
+                  type: 'success',
+                  message: '重置成功!'
+                });
+            }else{
+              this.$message.error(response.data.statusMsg);
+            }
+            })
+            .catch(function (response) {
+              console.log(response);
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消重置'
+          });          
+        });
+       
       }
     }
  }

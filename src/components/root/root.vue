@@ -48,7 +48,8 @@
      
   
      <el-container>
-       <el-header style="height:90px;"><div class="top"><span class="header">药店管理系统 <span class="type">系统管理员版</span></span></div>
+       <el-header style="height:90px;"><div class="top"><span class="header">药店管理系统 <span class="type">系统管理员版</span></span> <div class="userDetail">
+         <span class="name">欢迎您，{{name}}</span><img class="icon" src="//wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" alt=""></div></div>
        <bread></bread></el-header>
        <el-main>
       <section class="main">
@@ -66,10 +67,26 @@
 <script>
 import bread from '@/components/common/breadcrumb'
 export default {
- components:{
-   bread
- }
-}
+  created(){
+    console.log('created')
+    //console.log(this);
+    evenBus.$on('userName',(userName) => {
+     this.name=userName;
+    }
+    )
+  },
+  data(){
+    return {
+      name:''
+    }
+  },
+  components:{
+    bread
+  },
+  methods:{
+  
+  }
+  }
 </script>
 
 <style lang="scss"  type="text/css">
@@ -84,9 +101,12 @@ export default {
 <style lang="scss" scoped="" type="text/css">
  .top{
     border-bottom:1px solid #e6e6e6;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    padding-right:1%;
     .header{
       font-family:PingFang SC;
-      margin-bottom:10px;
       border-radius:5px;
       opacity: 0.8;
       line-height:43px;
@@ -96,6 +116,15 @@ export default {
         font-size:17px;
         color:#97a8be;
         //line-height:70px;
+      }
+    },
+    .userDetail{
+      .icon{
+        margin-left:10px;
+        width:40px;
+        height: 40px;
+        border-radius:10px;
+        vertical-align::middle;
       }
     }
   }

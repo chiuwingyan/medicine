@@ -39,6 +39,7 @@ export default {
         name: [{ required: true, trigger: 'blur'}],
         password: [{ required: true, trigger: 'blur'}]
       },
+      userName:''
     }
   },
   methods:{
@@ -65,7 +66,7 @@ export default {
        
         }else{
           localStorage.setItem("token",response.data.data.accessToken); 
-          localStorage.setItem("userId",response.data.data.id); 
+          that.userName=response.data.data.real_name;
           console.log(localStorage.getItem("token") );
           console.log(localStorage.getItem("userId") );
           if(response.data.data.role_id===1){ //系统管理员
@@ -82,9 +83,6 @@ export default {
         });
 
       } else {
-
-       
-
         return false;
 
       }
@@ -92,7 +90,11 @@ export default {
     });
         
             }
-        }
+        },
+         destroyed(){
+           console.log(this.userName)
+           evenBus.$emit('userName',this.userName)
+         }
       }
 </script>
 

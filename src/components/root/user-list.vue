@@ -47,13 +47,28 @@
   :visible.sync="dialogChange"
   width="30%"
  >
-  <el-form  style="text-align:center;" >
-            
-           
-      
+  <el-form  label-width="100px" >
+    <el-form-item label="用户名" prop="userName" :model="detail" >
+    <el-input v-model="detail.userName" :disabled="true"></el-input>
+  </el-form-item>       
+  <el-form-item label="真实姓名" prop="realName">
+    <el-input v-model="detail.realName"></el-input>
+  </el-form-item>             
+  <el-form-item label="角色" prop="roleId">
+    <el-radio-group v-model="detail.roleId">
+      <el-radio v-for="(item,index) in rule" :key="index" disabled :label="item.id">{{item.roleName}}</el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item>
+  
+    <el-button type="primary" @click="upDateUser">修改</el-button>
+    <el-button @click="closeDetail">取消</el-button>
+    
+  </el-form-item>      
 </el-form>
   
 </el-dialog>
+
 <!-- 新增弹框内容 -->
 <el-dialog
   title="新增用户"
@@ -132,7 +147,8 @@ export default {
           roleId: [
             { required: true, message: '请选择角色', trigger: 'blur' }
           ]
-      }
+      },
+      detail:{}
      }
  },
  methods:{
@@ -260,7 +276,54 @@ export default {
           });          
         });
        
+      },
+      showDetail(id){
+        this.$http.get(`user/getUserById/${id}`)
+      .then( (response) => {
+      console.log(response);
+      if(response.data.statusCode===200){
+          this.detail=response.data.data
+          this.dialogChange=true;
+      }else{
+              this.$message.error(response.data.statusMsg);
+            }
+      })
+      .catch(function (response) {
+        console.log(response);
+      })
+      },
+      closeDetail(){
+        this.dialogChange=false;
+      },
+      upDateUser(){
+      //console.log(this.detail);
+      this.$http.put('user/updateUser',
+        {
+          
+            id: this.detail.id,
+            isDisabled:this.detail.isDisabled,
+            realName:this.detail.realName,
+            roleId:this.detail.roleId
+          
+        })
+      .then( (response) => {
+      console.log(response);
+      if(response.data.statusCode===200){
+         this.dialogChange=false;
+            this.$message({
+                  type: 'success',
+                  message: '修改成功!'
+                });
+                this.getUserlist();
+      }else{
+        this.$message.error(response.data.statusMsg);
       }
+      })
+      .catch(function (response) {
+        console.log(response);
+      })
+      }
+      
     }
  }
 

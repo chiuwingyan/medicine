@@ -16,22 +16,22 @@
     </el-table-column>
     <el-table-column
       prop="num"
-      label="进货数量">
+      label="退货数量">
     </el-table-column>
      <el-table-column
-      prop="purchaseMoney"
-      label="进货单价">
+      prop="price"
+      label="退货单价">
     </el-table-column>
     <el-table-column
-      prop="totalMoney"
-      label="进货总额">
+      prop="totalPrice"
+      label="退货总额">
     </el-table-column>
     <el-table-column
-      prop="purchaseDate"
-      label="进货时间">
+      prop="createTime"
+      label="退货时间">
     </el-table-column>
     <el-table-column
-      prop="operatorName"
+      prop="operator"
       label="操作员">
     </el-table-column>
   </el-table>
@@ -47,7 +47,7 @@
 import formExl from '@/components/common/form-exl'
 export default {
   created(){
-   this.getPurchaseList();
+   this.getreturnFactotyList();
   },
   data(){
     return {
@@ -70,19 +70,9 @@ export default {
     formExl
   },
   methods:{
-    test(){
-      //console.log('route',this.$route);
-        this.$http.get('medicine/getMedicineList')
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (response) {
-          console.log(response);
-        });
-        },
       changepage(val){
         this.page.pageNo=val;
-        this.getPurchaseList();
+        this.getreturnFactotyList();
       },
       getList(searchObj){
       this.page.pageNo=1;
@@ -90,10 +80,10 @@ export default {
       this.searchObj.realName=searchObj.realName;
       this.searchObj.date=searchObj.date;
       this.searchObj.manufacturerId=searchObj.manufacturerId;
-      this.getPurchaseList();
+      this.getreturnFactotyList();
       },
-      getPurchaseList(){
-          this.$http.get('storage/getPurchaseList',
+      getreturnFactotyList(){
+          this.$http.get('storage/getReturnsManufacturerList',
         {
           params: {
             page: this.page.pageNo,
@@ -124,7 +114,7 @@ export default {
              this.$message.error('当前条件下列表为空，无法导出报表！');
              return ;
         }
-        this.$http.get('storage/getPurchaseExcel',
+        this.$http.get('storage/getReturnsToManufacturerExcel',
         {
           params: {
            startTime:this.searchObj.date && this.searchObj.date[0],

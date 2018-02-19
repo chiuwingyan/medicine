@@ -16,25 +16,35 @@ window.evenBus=new Vue();
 axios.defaults.timeout = 5000;       
 axios.defaults.baseURL = 'http://39.108.174.244:9090/';
 let loading;
+
+const downloadUrl = url => {
+  let iframe = document.createElement('iframe')
+  iframe.style.display = 'none'
+  iframe.src = url
+  iframe.onload = function () {
+    document.body.removeChild(iframe)
+  }
+  document.body.appendChild(iframe)
+}
 axios.interceptors.request.use(function (config) {
-  console.log('loading')
-  console.log('route', router.match(location))
   loading = Loading.service({ fullscreen: true, text: '疯狂加载中' });
-  //console.log(config.headers);
   if (localStorage.getItem('token') != null && router.match(location).hash !== '#/login'){
-    config.headers['Authorization']= `Bearer ${localStorage.getItem('token')}`;//添加请求头
-    console.log('Authorization');
+    config.headers['Authorization']= `Bearer ${localStorage.getItem('token')}`;
   }
   return config;
 }, function (error) {
   // 对请求错误做些什么
-  console.log(error);
+ // console.log(error);
   loading.close();
   return Promise.reject(error);
 });
 
 // 添加响应拦截器 ，请求结束后，关闭 加载组件
 axios.interceptors.response.use(function (response) {
+  if (response.headers && (response.headers['content-type'] === 'application/x-msdownload' || response.headers['content-type'] === 'application/octet-stream;charset=utf-8')) {
+    downloadUrl(response.request.responseURL)
+    
+  }
   loading.close();
   return response;
 }, function (error) {

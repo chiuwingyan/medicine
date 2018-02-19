@@ -122,7 +122,7 @@ export default {
          userList:[],
          page:{
             pageNo: 1,
-            pageSize:3,
+            pageSize:6,
             totalCount: null,
             pageCount:null,
         },
@@ -216,15 +216,13 @@ export default {
             //alert(this.addUser.roleId.id);
             this.$http.post('user/addUser',
               {
-           
                   username: this.addUser.username,
                   realName:this.addUser.realname,
                   password:this.addUser.password,
                   roleId:this.addUser.roleId.id
-                
               })
             .then( (response) => {
-            console.log(response);
+              //console.log(response);
              if(response.data.statusCode===200){
                this.dialogAdd=false;
                  this.$message({
@@ -299,7 +297,6 @@ export default {
       //console.log(this.detail);
       this.$http.put('user/updateUser',
         {
-          
             id: this.detail.id,
             isDisabled:this.detail.isDisabled,
             realName:this.detail.realName,

@@ -63,7 +63,6 @@ export default {
            console.log(response);
         if(response.data.statusCode!==200){
          that.$alert('用户名或密码错误','提示');
-       
         }else{
           localStorage.setItem("token",response.data.data.accessToken); 
           that.userName=response.data.data.real_name;

@@ -28,4 +28,8 @@ body{
   width: 100%;
   height: 100%;
 }
+.pagination{
+  margin:20px auto;
+  text-align: center; 
+}
 </style>

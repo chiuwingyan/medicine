@@ -72,7 +72,7 @@
   background
   layout="prev, pager, next"
   :total="page.totalCount" v-show="page.pageCount" :page-count="page.pageCount" :page-size="page.pageSize"
-   @current-change="changepage">
+   @current-change="changepage" :current-page.sync="page.pageNo">
 </el-pagination>
 <!-- 弹框内容 -->
 <el-dialog
@@ -124,7 +124,7 @@ export default {
         tableData: [],
         page:{
         pageNo: 1,
-        pageSize:3,
+        pageSize:5,
         totalCount: null,
         pageCount:null,
         },
@@ -188,12 +188,12 @@ export default {
       },
   changepage(val){
       this.page.pageNo=val;
-      console.log(val);
+    //  console.log(val);
       this.$nextTick( this.getmedicinelist());
     },
     search(){
     console.log(this.$refs.medicineType.value,this.$refs.manufacturer.value,this.formInline.code,this.formInline.medicineName,this.formInline.barCode)
-   
+    this.page.pageNo=1;
        this.postType=this.$refs.medicineType.value;
         this.postFacturer=this.$refs.manufacturer.value;
     this.postCode=this.formInline.code;

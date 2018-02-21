@@ -65,14 +65,14 @@
       </section>
        </el-main>
   </el-container>
-   
+<lowerTip></lowerTip>
 </el-container>
-  
 </template>
 
 <script>
 import bread from '@/components/common/breadcrumb'
 import avatar from '@/components/common/avatar'
+import lowerTip from '@/components/common/lower-tip'
 export default {
   created(){
   //  console.log('created')
@@ -113,7 +113,8 @@ export default {
   },
   components:{
     bread,
-    avatar
+    avatar,
+    lowerTip
   },
   methods:{
   

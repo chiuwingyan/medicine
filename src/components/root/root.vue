@@ -21,15 +21,13 @@
         <el-menu-item-group>
            <template slot="title">仓库统计报表</template>
           <el-menu-item index="/root/purchase-exl">进货统计报表</el-menu-item>
-          <el-menu-item index="" >退货统计报表</el-menu-item>
+          <el-menu-item index="/root/returnFactory-exl" >退货统计报表</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
-        
            <template slot="title">销售统计报表</template>
-          <el-menu-item index="/root/purchase-exl">售出统计报表</el-menu-item>
-          <el-menu-item index="" >退货统计报表</el-menu-item>
+          <el-menu-item index="/root/sellRecord-exl">售出统计报表</el-menu-item>
+          <el-menu-item index="/root/sellReturn-exl" >退货统计报表</el-menu-item>
         </el-menu-item-group>
-       
       </el-submenu>
       <el-menu-item index="/root/medicine-list" >
         <i class="el-icon-setting"></i>

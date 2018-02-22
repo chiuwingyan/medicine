@@ -8,7 +8,7 @@
   <p>仓库中存在库存低于10的药品，{{detail}}。</p>
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="visible2 = false">关闭</el-button>
-    <el-button type="primary" size="mini" @click="visible = true">查看详情</el-button>
+    <el-button type="primary" size="mini" @click="visible = true;visible2 = false">查看详情</el-button>
   </div>
 </el-popover>
 <span class="name" @click.prevent>欢迎您，{{name}}</span>
@@ -18,14 +18,18 @@
   width="400"
   trigger="click"
   v-model="visible" class="detailForm">
+  <div class="dataTable">
   <el-table :data="gridData">
-    <el-table-column width="150" property="date" label="日期"></el-table-column>
-    <el-table-column width="100" property="name" label="姓名"></el-table-column>
-    <el-table-column width="300" property="address" label="地址"></el-table-column>
+    <el-table-column width="100" property="medicineName" label="药品名称"></el-table-column>
+    <el-table-column width="100" property="manufacturerName" label="厂商"></el-table-column>
+    <el-table-column width="50" property="stockNum" label="库存"></el-table-column>
   </el-table>
-  <el-button size="mini" type="text" @click="visible2 = false">关闭</el-button>
-    <el-button type="primary" size="mini" @click="visible = true">查看详情</el-button>
-</el-popover>
+  </div>
+  <div class="bottom">
+    <el-button size="mini" type="danger" @click="visible = false">关闭</el-button>
+    <el-button type="primary" size="mini" @click="goList">{{btn}}</el-button>
+</div>
+  </el-popover>
 
 </div>
 </template>
@@ -39,50 +43,21 @@ export default {
     name:String
   },
   data() {
-    let detail;
+    let detail,btn;
     if(localStorage.getItem('userId')==2){
-      detail='请及时处理'
+      detail='请及时处理';
+      btn='去处理';
     }else{
-      detail='请及时通知仓库管理员处理'
+      detail='请及时通知仓库管理员处理';
+      btn='查看';
     }
     return {
       levelList: null,
       visible2:false,
       detail:detail,
       visible:false,
-      gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
+      gridData: [],
+      btn:btn
     }
   },
   methods: {
@@ -97,7 +72,8 @@ export default {
       console.log(response);
       if(response.data.statusCode===200){
          if(response.data.data.totalCount>0){
-        this.visible2=true;
+          this.gridData=response.data.data.data;
+          this.visible2=true;
          }
       }
       })
@@ -105,6 +81,9 @@ export default {
         console.log(response);
       })
       },
+      goList(){
+        this.$router.push('/root/medicine-list');
+      }
   },
   mounted(){
   }
@@ -126,7 +105,18 @@ export default {
 }
  .detailForm{
    .el-popper{
-
+     width:250px !important;
+     top:60px;
+     right: 30px;
+     max-height:230px;
+     .bottom{
+       text-align:center;
+       margin-top:5px;
+     }
+     .dataTable{
+       overflow: scroll;
+       height: 200px;
+     }
    }
  }
 </style>

@@ -12,6 +12,7 @@ import factory from '@/components/common/factory'
 import returnFactoryExl from '@/components/root/returnFactory-exl'
 import sellReturn from '@/components/root/sellReturn-exl'
 import sellRecord from '@/components/root/sellRecord-exl'
+import Factory  from '@/components/common/factory'
 Vue.use(Router)
 
 export default new Router({
@@ -68,6 +69,11 @@ export default new Router({
           path: 'sellRecord-exl',
           component: sellRecord,
           name: '售出统计报表',
+        },
+        {
+          path: 'factory',
+          component: factory,
+          name: '查看厂商列表',
         }
 
       ]

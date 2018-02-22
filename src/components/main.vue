@@ -12,11 +12,11 @@ export default {
      type:''
     }
   },
-  methods:{
-      
-  },
+ 
   created(){
-    //console.log(this.$route.matched)
+    //console.log(this.$route.matched
+  },
+  mounted(){
   }
 }
 </script>

@@ -21,13 +21,13 @@
         <el-menu-item-group>
            <template slot="title">仓库统计报表</template>
           <el-menu-item index="/root/purchase-exl">进货统计报表</el-menu-item>
-          <el-menu-item index="/root/returnFactory-exl" >仓库退货统计报表</el-menu-item>
+          <el-menu-item index="" >退货统计报表</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group>
         
            <template slot="title">销售统计报表</template>
-          <el-menu-item index="/root/sellRecord-exl">售出统计报表</el-menu-item>
-          <el-menu-item index="/root/sellReturn-exl" >销售退货统计报表</el-menu-item>
+          <el-menu-item index="/root/purchase-exl">售出统计报表</el-menu-item>
+          <el-menu-item index="" >退货统计报表</el-menu-item>
         </el-menu-item-group>
        
       </el-submenu>
@@ -42,10 +42,6 @@
         </template>
           <el-menu-item index="/root/user-list">查看用户列表</el-menu-item>
         </el-submenu>
-         <el-menu-item index="/root/factory" >
-        <i class="el-icon-setting"></i>
-        <span slot="title">厂商管理</span>
-      </el-menu-item>
     </el-menu>
       </el-col>
     </el-aside>
@@ -53,9 +49,7 @@
   
      <el-container>
        <el-header style="height:90px;"><div class="top"><span class="header">药店管理系统 <span class="type">系统管理员版</span></span> <div class="userDetail">
-         <span class="name">欢迎您，{{name}}</span>
-         <avatar></avatar>
-         </div></div>
+         <lowerTip :name="name"></lowerTip><avatar></avatar></div></div>
        <bread></bread></el-header>
        <el-main>
       <section class="main">
@@ -65,46 +59,23 @@
       </section>
        </el-main>
   </el-container>
-<lowerTip></lowerTip>
+  
 </el-container>
+  
 </template>
 
 <script>
 import bread from '@/components/common/breadcrumb'
-import avatar from '@/components/common/avatar'
 import lowerTip from '@/components/common/lower-tip'
+import avatar from '@/components/common/avatar'
 export default {
   created(){
-  //  console.log('created')
+    console.log('created')
     //console.log(this);
     evenBus.$on('userName',(userName) => {
      this.name=userName;
-    })
-    this.$http.get('other/getLowStockList',
-        {
-          params: {
-          
-          }
-        })
-      .then( (response) => {
-      console.log(response);
-      if(response.data.statusCode===200){
-         if(response.data.totalCount>0){
-           this.$notify({
-          title: '提示',
-          dangerouslyUseHTMLString: true,
-          message: '<strong>药品仓库当中存在药品库存小于等于10，请及时通知仓库管理员处理！<i class="show">点击查看</i></strong>',
-          duration: 0
-        });
-         }
-      }else{
-         this.$message.error(response.data.userMsg);
-      }
-      })
-      .catch(function (response) {
-        console.log(response);
-      })
-    
+    }
+    )
   },
   data(){
     return {
@@ -113,8 +84,8 @@ export default {
   },
   components:{
     bread,
-    avatar,
-    lowerTip
+    lowerTip,
+    avatar
   },
   methods:{
   
@@ -150,6 +121,15 @@ export default {
         color:#97a8be;
         //line-height:70px;
       }
+    },
+    .userDetail{
+      .icon{
+        margin-left:10px;
+        width:40px;
+        height: 40px;
+        border-radius:10px;
+        vertical-align::middle;
+      }
     }
   }
 
@@ -167,9 +147,5 @@ export default {
 }
 .el-container{
  // width:1893px;
-}
-.show{
-  text-decoration: underline;
-  color:blue;
 }
 </style>

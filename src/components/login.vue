@@ -65,6 +65,7 @@ export default {
          that.$alert('用户名或密码错误','提示');
         }else{
           localStorage.setItem("token",response.data.data.accessToken); 
+          localStorage.setItem("userId",response.data.data.role_id); 
           that.userName=response.data.data.real_name;
           console.log(localStorage.getItem("token") );
           console.log(localStorage.getItem("userId") );

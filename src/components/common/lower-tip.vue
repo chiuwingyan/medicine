@@ -5,7 +5,7 @@
   placement="left"
   width="160"
   v-model="visible2" class="showLower" >
-  <p>仓库中存在库存低于10的药品，{{detail}}。</p>
+  <p>仓库中存在库存低于{{warnNum}}的药品，{{detail}}。</p>
   <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="visible2 = false">关闭</el-button>
     <el-button type="primary" size="mini" @click="visible = true;visible2 = false">查看详情</el-button>
@@ -37,7 +37,10 @@
 <script>
 export default {
    created() {
-    this.getLower()
+    let that=this;
+    this.$http.all([this.getWarnNum(),this.getLowList()])
+    .then(that.$http.spread(function (warnNum,list) {
+  }));
   },
   props:{
     name:String
@@ -57,17 +60,33 @@ export default {
       detail:detail,
       visible:false,
       gridData: [],
-      btn:btn
+      btn:btn,
+      warnNum:null
     }
   },
   methods: {
+    getWarnNum(){
+      return this.getLowNum();
+    },
+    getLowList(){
+      return this.getLower();
+    },
+     getLowNum(){
+          this.$http.get('other/getLowWarnStockNum')
+      .then( (response) => {
+      console.log(response);
+      if(response.data.statusCode===200){
+        this.warnNum=response.data.data;
+      }else{
+        this.$message.error(response.data.userMsg);
+      }
+      })
+      .catch(function (response) {
+        console.log(response);
+      })
+      },
       getLower(){
-          this.$http.get('other/getLowStockList',
-        {
-          params: {
-          
-          }
-        })
+          this.$http.get('other/getLowStockList')
       .then( (response) => {
       console.log(response);
       if(response.data.statusCode===200){

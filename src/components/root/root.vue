@@ -47,6 +47,13 @@
         </template>
           <el-menu-item index="/root/factory">查看厂商列表</el-menu-item>
         </el-submenu>
+        <el-submenu index="">
+          <template slot="title">
+          <i class="el-icon-printer"></i>
+          <span>其他</span>
+        </template>
+          <el-menu-item @click="showLowList" index="">修改低库存警告数量</el-menu-item>
+        </el-submenu>
     </el-menu>
       </el-col>
     </el-aside>
@@ -64,7 +71,7 @@
       </section>
        </el-main>
   </el-container>
-  
+  <lowList @close="closeLow" :lowVisible="lowVisible" ref="lowlist"></lowList>
 </el-container>
   
 </template>
@@ -73,6 +80,7 @@
 import bread from '@/components/common/breadcrumb'
 import lowerTip from '@/components/common/lower-tip'
 import avatar from '@/components/common/avatar'
+import lowList from '@/components/common/lowList'
 export default {
   created(){
     console.log('created')
@@ -84,16 +92,24 @@ export default {
   },
   data(){
     return {
-      name:''
+      name:'',
+      lowVisible:false
     }
   },
   components:{
     bread,
     lowerTip,
-    avatar
+    avatar,
+    lowList
   },
   methods:{
-  
+   closeLow(){
+     this.lowVisible=false;
+   },
+   showLowList(){
+     this.$refs.lowlist.getLowList();
+     this.lowVisible=true;
+   }
   }
   }
 </script>

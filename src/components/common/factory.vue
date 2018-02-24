@@ -21,7 +21,10 @@
        <template slot-scope="scope">
          <el-button
           size="mini"
-         type="danger" icon="el-icon-delete" @click="delete(scope.row.id)">删除</el-button>
+         type="danger" icon="el-icon-delete"  @click="deleteF(scope.row.id)">删除</el-button>
+          <el-button
+          size="mini"
+         type="success" icon="el-icon-edit"  @click="change(scope.row.id,scope.row.name)">修改</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -43,6 +46,18 @@
     <el-button type="primary" @click="submit">提交</el-button>
   </div>
 </el-dialog>
+<!-- 修改厂商弹框 -->
+<el-dialog title="修改厂商" :visible.sync="dialogFormVisible1" class="factoty-dialog" :rules="addRules">
+  <el-form :model="changeForm" ref="addForm" :rules="addRules">
+    <el-form-item label="生产厂商名称"  prop="factoryName">
+      <el-input v-model="changeForm.factoryName" auto-complete="off"></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible1 = false">取 消</el-button>
+    <el-button type="primary" @click="update">修改</el-button>
+  </div>
+</el-dialog>
   </div>
 </template>
 
@@ -60,8 +75,13 @@ export default {
      },
      factory:[],
      dialogFormVisible:false,
+     dialogFormVisible1:false,
      form:{
          factoryName:''
+     },
+     changeForm:{
+       factoryName:'',
+       id:null
      },
      addRules:{
           factoryName:[{ required: true, message: '请输入生产厂商名称', trigger: 'blur'  }
@@ -101,7 +121,8 @@ export default {
       console.log(val);
       this.$nextTick(this.getFactory());
     },
-    delete(id){
+    deleteF(id){
+     // alert(123);
         this.$confirm('确定删除此用户?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -117,7 +138,7 @@ export default {
         });
         this.getUserlist();     //删除成功后重新获取用户列表
       }else{
-        this.$message.error(response.data.statusMsg);
+        this.$message.error(response.data.userMsg);
       }
       })
       .catch(function (response) {
@@ -130,11 +151,68 @@ export default {
           });          
         });
     },
+     change(id,name){
+     // alert(123);
+     this.changeForm.factoryName=name;
+     this.changeForm.id=id;
+     this.dialogFormVisible1=true;
+    },
     submit(){
         this.$refs.addForm.validate((valid) => {
           if (valid) {
             //alert(this.addUser.roleId.id);
-          
+          this.$http.post('manufacturer/addManufacturer',
+              {
+                  name:this.form.factoryName
+              })
+            .then( (response) => {
+              //console.log(response);
+             if(response.data.statusCode===200){
+               this.dialogAdd=false;
+                 this.$message({
+                  message: '添加成功！',
+                  type: 'success'
+                });
+                this.dialogFormVisible=false;
+                this.getFactory();
+            }else{
+              this.$message.error(response.data.statusMsg);
+            }
+            })
+            .catch(function (response) {
+              console.log(response);
+            })
+                } else {
+                  return false;
+                }
+              });
+    },
+    update(){
+      this.$refs.addForm.validate((valid) => {
+          if (valid) {
+            //alert(this.addUser.roleId.id);
+          this.$http.put('manufacturer/updateManufacturer',
+              {
+                  name:this.changeForm.factoryName,
+                  id:this.changeForm.id
+              })
+            .then( (response) => {
+              //console.log(response);
+             if(response.data.statusCode===200){
+              
+                 this.$message({
+                  message: '修改成功！',
+                  type: 'success'
+                });
+                this.dialogFormVisible1=false;
+                this.getFactory();
+            }else{
+              this.$message.error(response.data.statusMsg);
+            }
+            })
+            .catch(function (response) {
+              console.log(response);
+            })
                 } else {
                   return false;
                 }
@@ -156,12 +234,19 @@ export default {
     margin-left:10%; 
     margin-top:10px; 
 }
+
+</style>
+<style lang="scss" type="text/css">
 .factoty-dialog{
+  .el-dialog{
+    width: 30%;
     .el-input{
         width: 61%;
     }
     .el-form-item__error{
         left: 40%;
     }
+  }
 }
+
 </style>

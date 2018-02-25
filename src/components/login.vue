@@ -65,10 +65,9 @@ export default {
          that.$alert('用户名或密码错误','提示');
         }else{
           localStorage.setItem("token",response.data.data.accessToken); 
-          localStorage.setItem("userId",response.data.data.role_id); 
-          that.userName=response.data.data.real_name;
-          console.log(localStorage.getItem("token") );
-          console.log(localStorage.getItem("userId") );
+          localStorage.setItem("roleId",response.data.data.role_id); 
+          localStorage.setItem("userName",response.data.data.real_name); 
+          localStorage.setItem("userId",response.data.data.id);
           if(response.data.data.role_id===1){ //系统管理员
             that.$router.push('/root');
           }else if(response.data.data.role_id===2){//仓库管理员
@@ -92,8 +91,7 @@ export default {
             }
         },
          destroyed(){
-           console.log(this.userName)
-           evenBus.$emit('userName',this.userName)
+           
          }
       }
 </script>

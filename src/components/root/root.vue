@@ -29,6 +29,14 @@
           <el-menu-item index="/root/sellReturn-exl" >退货统计报表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+       <el-submenu index="">
+          <template slot="title">
+          <i class="el-icon-printer"></i>
+          <span>查看统计图</span>
+        </template>
+          <el-menu-item index="/root/sales-volume-graph">查看药品销量统计图</el-menu-item>
+          <el-menu-item index="/root/saleroom-graph">查看药店销额统计图</el-menu-item>
+        </el-submenu>
       <el-menu-item index="/root/medicine-list" >
         <i class="el-icon-setting"></i>
         <span slot="title">查看药品列表</span>
@@ -85,10 +93,8 @@ export default {
   created(){
     console.log('created')
     //console.log(this);
-    evenBus.$on('userName',(userName) => {
-     this.name=userName;
-    }
-    )
+   
+     this.name=localStorage.getItem('userName')
   },
   data(){
     return {

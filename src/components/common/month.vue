@@ -68,9 +68,6 @@ export default {
     }
   },
  methods:{
-   getExl(){
-      this.$emit('export');
-   },
    search(){
      this.$emit('getMonth',this.month)
    }

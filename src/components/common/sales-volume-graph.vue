@@ -21,26 +21,25 @@ created(){
   data () {
     return {
         xline:[],
-        profit:[],
-        cost:[],
-        sales:[],
+        inner:[],
+        outSide:[],
         month:6,
         opt:{
            tooltip: {
         trigger: 'item',
         formatter:function (a) {
-            console.log(a)
-            return (a.data.type+'<br>'+a.name+':'+a.data['value'])
+            //console.log(a)
+            return (a.data.manufacturerName+'<br>'+a.name+':'+a.data['value'])
         }
     },
     legend: {
         orient: 'vertical',
         x: 'left',
-        data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
+        data:[]
     },
     series: [
         {
-            name:'访问来源',
+            name:'销售量',
             type:'pie',
             selectedMode: 'single',
             radius: [0, '30%'],
@@ -55,11 +54,7 @@ created(){
                     show: false
                 }
             },
-            data:[
-                {value:335, name:'直达', selected:true,type:'aaaaaaaa'},
-                {value:679, name:'营销广告',type:'aaaaaaaa'},
-                {value:1548, name:'搜索引擎',type:'aaaaaaaa'}
-            ]
+            data:[]
         },
         {
             name:'销售量',
@@ -109,16 +104,7 @@ created(){
                     }
                 }
             },
-            data:[
-                {value:335, name:'直达',type:'aaaaaaaa'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1048, name:'百度'},
-                {value:251, name:'谷歌'},
-                {value:147, name:'必应'},
-                {value:102, name:'其他'}
-            ]
+            data:[]
         }
     ]
         }
@@ -135,56 +121,53 @@ created(){
          let myChart = this.$echarts.init(this.$refs.myChart, 'normal');
         // 绘制图表
         myChart.setOption(this.opt);
-    //     this.$http.get(`statistics/getSellStatistics?month=${this.month}`)
-    //   .then( (response) => {
-    //   console.log(response);
-    //   if(response.data.statusCode===200){
-    //       this.xline=[]
-    //       console.log('xline',this.xline);
-    //       this.profit=[]
-    //       this.cost=[]
-    //       this.sales=[]
-    //       this.$nextTick(
-    //         response.data.data.forEach((item,index)=>{
-    //         this.xline=this.xline.concat(item.date);
-    //         this.profit=this.profit.concat(item.retainedProfits);
-    //         this.cost=this.cost.concat(item.totalCost);
-    //         this.sales=this.sales.concat(item.totalSales);
-    //     })
-    //          )
-    //     myChart.setOption({
-    //         xAxis: [
-    //             {
-    //                 type: 'category',
-    //                 data: this.xline,
-    //                 axisPointer: {
-    //                     type: 'shadow'
-    //                 }
-    //             }
-    //         ],
-    //         series: [ {
-    //         name:'总利润',
-    //         type:'bar',
-    //         data:this.profit
-    //     },
-    //     {
-    //         name:'总成本',
-    //         type:'bar',
-    //         data:this.cost
-    //     },
-    //     {
-    //         name:'总销售额',
-    //         type:'line',
-    //         data:this.sales
-    //     }]
-    //       })
-    //   }else{
-    //     this.$message.error(response.data.userMsg);
-    //   }
-    //   })
-    //   .catch(function (response) {
-    //     console.log(response);
-    //   })
+        this.$http.get(`statistics/getSellMedicineStatistics?month=${this.month}`)
+      .then( (response) => {
+      console.log(response);
+      if(response.data.statusCode===200){
+          this.xline=[]
+          //console.log('xline',this.xline);
+          this.inner=[]
+          this.outSide=[]
+          this.$nextTick(
+            response.data.data.forEach((item,index)=>{
+            this.xline=this.xline.concat(item.name);
+            if(index<2){
+                this.inner=this.inner.concat(item);
+            }else{
+                this.outSide=this.outSide.concat(item)
+            }
+        })
+             )
+        myChart.setOption({
+            legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:this.xline
+            },
+       series: [
+        {
+            name:'销售量',
+            type:'pie',
+            selectedMode: 'single',
+            radius: [0, '30%'],
+            data:this.inner
+        },
+        {
+            name:'销售量',
+            type:'pie',
+            radius: ['40%', '55%'],
+            data:this.outSide
+        }
+    ]
+          })
+      }else{
+        this.$message.error(response.data.userMsg);
+      }
+      })
+      .catch(function (response) {
+        console.log(response);
+      })
     },
     getMonth(month){
         this.month=month;

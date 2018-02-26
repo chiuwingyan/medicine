@@ -13,6 +13,9 @@ import returnFactoryExl from '@/components/root/returnFactory-exl'
 import sellReturn from '@/components/root/sellReturn-exl'
 import sellRecord from '@/components/root/sellRecord-exl'
 import Factory  from '@/components/common/factory'
+import saleroomGraph from '@/components/common/saleroom-graph'
+import salesVolumeGraph from '@/components/common/sales-volume-graph'
+
 Vue.use(Router)
 
 export default new Router({
@@ -74,8 +77,17 @@ export default new Router({
           path: 'factory',
           component: factory,
           name: '查看厂商列表',
+        },
+        {
+          path: 'saleroom-graph',
+          component: saleroomGraph,
+          name: '查看药店销额统计图',
+        },
+        {
+          path: 'sales-volume-graph',
+          component: salesVolumeGraph,
+          name: '查看药品销量统计图',
         }
-
       ]
     },
     {

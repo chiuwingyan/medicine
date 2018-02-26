@@ -47,7 +47,7 @@ export default {
   },
   data() {
     let detail,btn;
-    if(localStorage.getItem('userId')==2){
+    if(localStorage.getItem('roleId')==2){
       detail='请及时处理';
       btn='去处理';
     }else{

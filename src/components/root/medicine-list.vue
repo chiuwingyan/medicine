@@ -82,7 +82,7 @@
  >
   <el-form class="detail" style="text-align:center;">
             <el-form-item label="药品图片">
-           <img :src="item.fileUrl" alt="" v-for="(item,index) in detail.imgUrls" :key="index" />
+           <img :src="img" width="300" height="150" alt=""/>
             </el-form-item>
             <el-form-item label="生产日期">
               <div class="content">{{detail.productionDate}}</div>
@@ -118,6 +118,11 @@ export default {
     that.formInline.medicineType=type.data.data.data;
     that.formInline.manufacturer=fact.data.data.data;
   }));
+  },
+  computed:{
+    img(){
+      return this.detail.imgUrls && this.detail.imgUrls.length>0 &&this.detail.imgUrls[0].imgUrl
+    }
   },
    data() {
       return {

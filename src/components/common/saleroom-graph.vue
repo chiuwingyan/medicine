@@ -1,6 +1,6 @@
 <template>
 <div>
-    <month></month>
+    <month @getMonth="getMonth"></month>
     <div style="width:100%; min-height:650px;">
     <div id="myChart" style="width:100%; min-height:650px;" ref="myChart"></div>
 </div>
@@ -95,25 +95,27 @@ created(){
       )
   },
   methods: {
-    drawLine(){
-        // 基于准备好的dom，初始化echarts实例
-       
-    },
     getData(){
          let myChart = this.$echarts.init(this.$refs.myChart, 'dark');
         // 绘制图表
-        console.log('opt',this.opt)
         myChart.setOption(this.opt);
         this.$http.get(`statistics/getSellStatistics?month=${this.month}`)
       .then( (response) => {
       console.log(response);
       if(response.data.statusCode===200){
-        response.data.data.forEach((item,index)=>{
+          this.xline=[]
+          console.log('xline',this.xline);
+          this.profit=[]
+          this.cost=[]
+          this.sales=[]
+          this.$nextTick(
+            response.data.data.forEach((item,index)=>{
             this.xline=this.xline.concat(item.date);
             this.profit=this.profit.concat(item.retainedProfits);
             this.cost=this.cost.concat(item.totalCost);
             this.sales=this.sales.concat(item.totalSales);
         })
+             )
         myChart.setOption({
             xAxis: [
                 {
@@ -147,6 +149,10 @@ created(){
       .catch(function (response) {
         console.log(response);
       })
+    },
+    getMonth(month){
+        this.month=month;
+        this.getData();
     }
   }
 }

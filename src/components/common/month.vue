@@ -8,6 +8,7 @@
       :value="item.value">
     </el-option>
   </el-select>
+  <el-button type="success"  icon="el-icon-search" @click="search">查询</el-button>
 </div>
   
 </template>
@@ -71,7 +72,7 @@ export default {
       this.$emit('export');
    },
    search(){
-     this.$emit('search',this.searchObj)
+     this.$emit('getMonth',this.month)
    }
  }
 }
@@ -79,6 +80,6 @@ export default {
 
 <style lang="scss"  type="text/css" scoped="">
 .month{
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 </style>

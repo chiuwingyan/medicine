@@ -15,7 +15,7 @@ Vue.use(ElementUI);
 Vue.use(router);
 window.evenBus=new Vue();
 /* eslint-disable no-new */
-axios.defaults.timeout = 5000;       
+axios.defaults.timeout = 1000;       
 axios.defaults.baseURL = 'http://39.108.174.244:9090/';
 let loading;
 

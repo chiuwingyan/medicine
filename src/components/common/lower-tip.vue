@@ -11,7 +11,7 @@
     <el-button type="primary" size="mini" @click="visible = true;visible2 = false">查看详情</el-button>
   </div>
 </el-popover>
-<span class="name" @click.prevent>欢迎您，{{name}}</span>
+<span  @click.prevent>欢迎您，{{name}}</span>
 <el-popover
   ref="popover4"
   placement="right"
@@ -46,7 +46,7 @@ export default {
     name:String
   },
   data() {
-    let detail,btn;
+    let detail,btn,color;
     if(localStorage.getItem('roleId')==2){
       detail='请及时处理';
       btn='去处理';
@@ -113,6 +113,9 @@ export default {
 .lower{
   display: inline-block;
  
+}
+.white{
+  color:#fff;
 }
 </style>
 <style lang="scss"  type="text/css" >

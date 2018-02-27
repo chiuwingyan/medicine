@@ -15,7 +15,9 @@ import sellRecord from '@/components/root/sellRecord-exl'
 import Factory  from '@/components/common/factory'
 import saleroomGraph from '@/components/common/saleroom-graph'
 import salesVolumeGraph from '@/components/common/sales-volume-graph'
-
+//仓库管理员
+import managerWorking from '@/components/manager/manager-working'
+import purchase from '@/components/manager/purchase'
 Vue.use(Router)
 
 export default new Router({
@@ -96,7 +98,28 @@ export default new Router({
     },
     {
       path: '/manager',
-      component: Manager
+      component: Manager,
+      redirect: '/manager/main/manager',
+      children:[
+        {
+          path: 'main/:type',
+          component: Main,
+          name: '首页'
+        },
+        {
+          path: 'manager-working',
+          component: managerWorking,
+          name: '我的工作台',
+          redirect: 'purchase',
+          children:[
+            {
+              path: 'purchase',
+              component: purchase,
+              name: '药品进货'
+            },
+          ]
+        },
+      ]
     }
   ]
 })

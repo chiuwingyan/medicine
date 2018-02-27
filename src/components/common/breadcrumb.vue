@@ -30,7 +30,15 @@ export default {
       let matched = this.$route.matched.filter(item => item.name)
       const first = matched[0]
       if (first && first.name !== '首页') {
-        matched = [{ path: '/root/main/root', name:'首页'}].concat(matched)
+        let pathUrl;
+        if(localStorage.getItem('roleId')==2){
+            pathUrl='/manager/main/manager'
+          }else if(localStorage.getItem('roleId')==1){
+            pathUrl='/root/main/root'
+          }else {
+            pathUrl='/cashier/main/cashier'
+          }
+        matched = [{ path: pathUrl, name:'首页'}].concat(matched)
       }
       this.levelList = matched
     }

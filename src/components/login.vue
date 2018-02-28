@@ -27,7 +27,10 @@
 <script>
 export default {
  created(){
-   console.log('login');
+   localStorage.removeItem("token");
+   localStorage.removeItem("roleId");
+   localStorage.removeItem("userName");
+   localStorage.removeItem("userId");
  },
   data () {
     

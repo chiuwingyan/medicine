@@ -54,7 +54,7 @@ export default {
       tableData:[],
       page:{
         pageNo: 1,
-        pageSize:5,
+        pageSize:12,
         totalCount: null,
         pageCount:null,
         },

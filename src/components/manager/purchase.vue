@@ -33,38 +33,43 @@
     <el-table-column
       prop="code"
       label="药品编号"
-      width="180">
+      width="150%">
     </el-table-column>
     <el-table-column
       prop="name"
       label="药品名称"
-      width="180">
+      width="150%">
     </el-table-column>
     <el-table-column
       prop="manufacturerName"
       label="厂商"
-      width="180">
+      width="150%">
       
     </el-table-column>
     <el-table-column
       prop="medicineType"
       label="药品类型"
-      width="180">
+      width="150%">
     </el-table-column>
      <el-table-column
       prop="barCode"
       label="条形码"
-      width="180">
+      width="150%">
     </el-table-column>
     <el-table-column
       prop="stockNum"
       label="药品库存"
-      width="180">
+      width="150%">
     </el-table-column>
     <el-table-column
       prop="sellPrice"
       label="售价"
-      width="180">
+      width="150%">
+    </el-table-column>
+    <el-table-column
+      prop="purchasePrice"
+      label="进货价"
+      width="200%">
     </el-table-column>
      <el-table-column
       label="操作" prop="code">
@@ -72,9 +77,9 @@
       <el-button
           size="mini"
          type="primary" plain @click="showDetail(scope.row.id)">查看详情</el-button>
-         <el-button size="mini" type="success">进货</el-button>
+         <el-button size="mini" type="success" @click="showpurchase(scope.row.id,scope.row.purchasePrice)">进货</el-button>
          <el-button type="primary" size="mini">修改药品</el-button>
-          <el-button type="danger" size="mini">删除</el-button>
+          <el-button type="danger" size="mini" @click="deleteMedicine(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -84,7 +89,7 @@
   :total="page.totalCount" v-show="page.pageCount" :page-count="page.pageCount" :page-size="page.pageSize"
    @current-change="changepage" :current-page.sync="page.pageNo">
 </el-pagination>
-<!-- 弹框内容 -->
+<!-- 药品详情弹框内容 -->
 <el-dialog
   title="药品详情"
   :visible.sync="dialogVisible"
@@ -113,6 +118,24 @@
           </el-form>
   
 </el-dialog>
+<!-- 进货弹框 -->
+<el-dialog
+  title="进货操作"
+  :visible.sync="ispurchase"
+  width="20%">
+  <el-form :model="purchase" status-icon  ref="purchaseForm" label-width="100px" class="demo-ruleForm" :rules="purchaseForm">
+  <el-form-item label="进货数量" prop="num" >
+     <el-input-number v-model="purchase.num"  :min="1" label="进货数量"></el-input-number>
+  </el-form-item>
+  <el-form-item label="本次进货单价" prop="purchaseMoney" >
+     <el-input v-model="purchase.purchaseMoney" type="text"></el-input>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="toPurchase">确定</el-button>
+    <el-button @click="ispurchase=false">关闭</el-button>
+  </el-form-item>
+</el-form>
+</el-dialog>
   </div>
 </template>
 
@@ -140,6 +163,18 @@ export default {
     }
   },
    data() {
+     var validate = (rule, value, callback) => {
+       //console.log(value)
+        if (value === ''|| value === undefined) {
+          callback(new Error('进货单价不能为空'));
+        } else {
+         let re=/^[0-9]+(.[0-9]{1,2})?$/;
+        if(!re.test(value)){
+             callback(new Error('进货单价不正确'));
+        }
+          callback();
+        }
+      };
       return {
         tableData: [],
         page:{
@@ -163,10 +198,19 @@ export default {
         postCode:'',
         postBarcode:'',
         dialogVisible:false,
+        ispurchase:false,
         detail:{},
         addMedicine:{
             
-        }
+        },
+        purchase:{
+          num:1,
+          medicineId:null,
+          purchaseMoney:null
+        },
+         purchaseForm:{
+          purchaseMoney:[{ required: true,validator: validate, trigger: 'blur'  }]
+      }
       }
     },
     methods:{
@@ -239,6 +283,79 @@ export default {
         console.log(response);
       })
     
+    },
+    showpurchase(id,price){
+      this.purchase.num=1;
+      this.purchase.medicineId=id;
+      this.purchase.purchaseMoney=price;
+      this.ispurchase=true;
+    },
+    toPurchase(){           //进货
+       this.$refs.purchaseForm.validate((valid) => {
+          if (valid) {
+            //alert(this.addUser.roleId.id);
+          this.$http.post('storage/purchase',
+              {
+                 medicineId:this.purchase.medicineId,
+                 num:this.purchase.num,
+                 purchaseMoney:this.purchase.purchaseMoney
+              })
+            .then( (response) => {
+              //console.log(response);
+             if(response.data.statusCode===200){
+               this.ispurchase=false;
+                 this.$message({
+                  message: '进货成功！',
+                  type: 'success'
+                });
+              
+                this.getmedicinelist();
+            }else{
+              this.$message.error(response.data.statusMsg);
+            }
+            })
+            .catch(function (response) {
+              console.log(response);
+            })
+                } else {
+                  return false;
+                }
+              });
+    },
+    deleteMedicine(id){  //删除药品
+      this.$confirm('确定删除此药品?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+      this.$http.post('medicine/addOrUpdateMedicine',
+                {
+                  id:id,
+                  isDeleted:1
+                })
+              .then( (response) => {
+                //console.log(response);
+              if(response.data.statusCode===200){
+                this.ispurchase=false;
+                  this.$message({
+                    message: '删除成功！',
+                    type: 'success'
+                  });
+                
+                  this.getmedicinelist();
+              }else{
+                this.$message.error(response.data.statusMsg);
+              }
+              })
+              .catch(function (response) {
+                console.log(response);
+              })
+              }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });          
+          });
     }
 }
     }

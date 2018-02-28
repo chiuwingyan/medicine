@@ -38,57 +38,90 @@ export default new Router({
         {
           path:'main/:type',
           component:Main,
-          name:'首页'
+          name:'首页',
+          meta: {
+            requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
+          },
         },
         {
           path: 'purchase-exl',
           component: purchaseExl,
           name:'进货统计报表',
+          meta: {
+            requireAuth: true,  
+          },
         },
         {
           path: 'medicine-list',
           component: medicineList,
           name: '药品列表',
+          meta: {
+            requireAuth: true,  
+          },
         },
         {
           path: 'user-list',
           component: userList,
           name: '用户列表',
+          meta: {
+            requireAuth: true, 
+          },
         },
         {
           path: 'factory',
           component: factory,
           name: '厂商管理',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'returnFactory-exl',
           component: returnFactoryExl,
           name: '仓库退货统计报表',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'sellReturn-exl',
           component: sellReturn,
           name: '销售退货统计报表',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'sellRecord-exl',
           component: sellRecord,
           name: '售出统计报表',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'factory',
           component: factory,
           name: '查看厂商列表',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'saleroom-graph',
           component: saleroomGraph,
           name: '查看药店销额统计图',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'sales-volume-graph',
           component: salesVolumeGraph,
           name: '查看药品销量统计图',
+          meta: {
+            requireAuth: true,
+          },
         }
       ]
     },
@@ -100,22 +133,31 @@ export default new Router({
       path: '/manager',
       component: Manager,
       redirect: '/manager/main/manager',
+
       children:[
         {
           path: 'main/:type',
           component: Main,
-          name: '首页'
+          name: '首页',
+          meta: {
+            requireAuth: true,
+          },
         },
         {
           path: 'manager-working',
           component: managerWorking,
           name: '我的工作台',
-          redirect: 'purchase',
+          redirect: {
+            name: '药品进货'
+          },
           children:[
             {
               path: 'purchase',
               component: purchase,
-              name: '药品进货'
+              name: '药品进货',
+              meta: {
+                requireAuth: true,
+              },
             },
           ]
         },

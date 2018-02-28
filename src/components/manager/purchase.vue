@@ -33,43 +33,43 @@
     <el-table-column
       prop="code"
       label="药品编号"
-      width="150%">
+      width="100%">
     </el-table-column>
     <el-table-column
       prop="name"
       label="药品名称"
-      width="150%">
+      width="100%">
     </el-table-column>
     <el-table-column
       prop="manufacturerName"
       label="厂商"
-      width="150%">
+      width="100%">
       
     </el-table-column>
     <el-table-column
       prop="medicineType"
       label="药品类型"
-      width="150%">
+      width="100%">
     </el-table-column>
      <el-table-column
       prop="barCode"
       label="条形码"
-      width="150%">
+      width="100%">
     </el-table-column>
     <el-table-column
       prop="stockNum"
       label="药品库存"
-      width="150%">
+      width="100%">
     </el-table-column>
     <el-table-column
       prop="sellPrice"
       label="售价"
-      width="150%">
+      width="100%">
     </el-table-column>
     <el-table-column
       prop="purchasePrice"
       label="进货价"
-      width="200%">
+      width="100%">
     </el-table-column>
      <el-table-column
       label="操作" prop="code">
@@ -77,7 +77,7 @@
       <el-button
           size="mini"
          type="primary" plain @click="showDetail(scope.row.id)">查看详情</el-button>
-         <el-button size="mini" type="success" @click="showpurchase(scope.row.id,scope.row.purchasePrice)">进货</el-button>
+         <el-button size="mini" type="success" @click="showpurchase(scope.row.id,scope.row.purchasePrice,scope.row.manufacturerId)">进货</el-button>
          <el-button type="primary" size="mini">修改药品</el-button>
           <el-button type="danger" size="mini" @click="deleteMedicine(scope.row.id)">删除</el-button>
       </template>
@@ -122,7 +122,7 @@
 <el-dialog
   title="进货操作"
   :visible.sync="ispurchase"
-  width="20%">
+  width="30%">
   <el-form :model="purchase" status-icon  ref="purchaseForm" label-width="100px" class="demo-ruleForm" :rules="purchaseForm">
   <el-form-item label="进货数量" prop="num" >
      <el-input-number v-model="purchase.num"  :min="1" label="进货数量"></el-input-number>
@@ -206,7 +206,8 @@ export default {
         purchase:{
           num:1,
           medicineId:null,
-          purchaseMoney:null
+          purchaseMoney:null,
+          manufacturerId:null
         },
          purchaseForm:{
           purchaseMoney:[{ required: true,validator: validate, trigger: 'blur'  }]
@@ -284,10 +285,11 @@ export default {
       })
     
     },
-    showpurchase(id,price){
+    showpurchase(id,price,manufacturerId){
       this.purchase.num=1;
       this.purchase.medicineId=id;
       this.purchase.purchaseMoney=price;
+      this.purchase.manufacturerId=manufacturerId;
       this.ispurchase=true;
     },
     toPurchase(){           //进货
@@ -298,7 +300,8 @@ export default {
               {
                  medicineId:this.purchase.medicineId,
                  num:this.purchase.num,
-                 purchaseMoney:this.purchase.purchaseMoney
+                 purchaseMoney:this.purchase.purchaseMoney,
+                 manufacturerId:this.purchase.manufacturerId
               })
             .then( (response) => {
               //console.log(response);

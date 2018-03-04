@@ -46,6 +46,9 @@
     <el-table-column
       prop="medicineType"
       label="药品类型">
+      <template slot-scope="scope">
+     <div v-for="(item,index) in scope.row.medicineType" :key="index">{{item.name}}</div>
+      </template>
     </el-table-column>
      <el-table-column
       prop="barCode"

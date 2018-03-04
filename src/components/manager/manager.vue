@@ -19,7 +19,6 @@
   <el-menu-item index="/manager/main/manager">首页</el-menu-item>
 </el-menu>
 <el-main style="height:93%;" class="under">
-
 <el-menu default-active="1-4-1" class="el-menu-vertical-demo left" @open="handleOpen" @close="handleClose" :collapse="isCollapse" style="height:100%;display:inline-block;"
  router>
   <el-submenu index="1">

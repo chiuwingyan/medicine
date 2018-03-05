@@ -5,7 +5,7 @@
     <el-input v-model="searchObj.medicineName" placeholder="药品名称" ref="medicineName"></el-input>
   </el-form-item>
   <el-form-item label="">
-    <el-input v-model="searchObj.realName" placeholder="操作员姓名" ref="code"></el-input>
+    <el-input :disabled="showMyself"  v-model="searchObj.realName" placeholder="操作员姓名" ref="code"></el-input>
   </el-form-item>
   <el-form-item label="">
   <el-date-picker
@@ -24,7 +24,7 @@
   </el-form-item>
     <el-button type="primary" @click="search"><i class="el-icon-search"></i> 查询</el-button>
 </el-form>
- <el-button type="success" @click="getExl"><i class="el-icon-circle-plus-outline"></i>导出统计报表</el-button>
+ <el-button v-if="isShow" type="success" @click="getExl"><i class="el-icon-circle-plus-outline"></i>导出统计报表</el-button>
   </div>
   
 </template>
@@ -32,6 +32,16 @@
 <script>
 
 export default {
+  props:{
+    isShow:{
+      type:Boolean,
+      default:true
+    },
+    showMyself:{
+      type:Boolean,
+      default:false
+    }
+  },
   created(){
     this.$http.get(`manufacturer/getManufacturerList?rows=100`)
       .then( (response) => {

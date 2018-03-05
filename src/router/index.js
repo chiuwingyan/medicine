@@ -18,6 +18,8 @@ import salesVolumeGraph from '@/components/common/sales-volume-graph'
 //仓库管理员
 import managerWorking from '@/components/manager/manager-working'
 import purchase from '@/components/manager/purchase'
+import mediType from '@/components/common/medi-type'
+import returntoFactory from '@/components/manager/returntoFactory'
 Vue.use(Router)
 
 export default new Router({
@@ -153,13 +155,38 @@ export default new Router({
             {
               path: 'purchase',
               component: purchase,
-              name: '药品进货',
+              name: '药品进货及药品管理',
               meta: {
                 requireAuth: true,
               },
             },
+            {
+              path: 'returntoFactory',
+              component: returntoFactory,
+              name: '药品退货',
+              meta: {
+                requireAuth: true,
+              },
+            }
           ]
         },
+        {
+          path: 'factory',
+          component: factory,
+          name: '厂商管理',
+          meta: {
+            requireAuth: true,
+          },
+        },
+        {
+          path: 'medi-type',
+          component: mediType,
+          name: '药品类型管理',
+          meta: {
+            requireAuth: true,
+          },
+        },
+
       ]
     }
   ]

@@ -82,7 +82,7 @@
          type="primary" plain @click="showDetail(scope.row.id)">查看详情</el-button>
          <el-button size="mini" type="success" @click="showpurchase(scope.row.id,scope.row.purchasePrice,scope.row.manufacturerId)">进货</el-button>
          <el-button type="primary" size="mini" @click="showAdd(scope.row.id)">修改药品</el-button>
-          <el-button type="danger" size="mini" @click="deleteMedicine(scope.row.id)">删除</el-button>
+          <el-button type="danger" size="mini" @click="deleteMedicine(scope.row.code)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -218,12 +218,12 @@
       class="upload-demo"
       action="http://39.108.174.244:9090/file/uploadPic"
       :header="header"
-      :on-success="uploadSuccess"
-      :on-error="onError"
+      :on-success="changeuploadSuccess"
+      :on-error="changeonError"
       :limit="1"
       :on-exceed="handleExceed"
       :file-list="fileList"
-      :before-remove="beforeRemove">
+      :before-remove="changebeforeRemove">
   <el-button size="small" type="primary">点击上传</el-button>
   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不能超过一张图片</div>
 </el-upload>
@@ -235,7 +235,7 @@
       <el-input v-model="changeMedicine.medicineName" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="药品条形码" label-width="30%" prop="barCode" :rules="[{required: true, message: '药品条形码不能为空', trigger: 'blur'}]">
-      <el-input v-model="changeMedicine.barCode" auto-complete="off" :disabled="true"></el-input>
+      <el-input v-model="changeMedicine.barCode" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="生产厂商" label-width="30%" prop="manufacturerId" :rules="[{required: true, message: '生产厂商不能为空', trigger: 'change'}]">
     <el-select v-model="changeMedicine.manufacturerId" placeholder="生产厂商"  value-key="id" clearable>
@@ -275,7 +275,7 @@
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
-    <el-button @click="addDialog = false">取 消</el-button>
+    <el-button @click="changeDialog = false">取 消</el-button>
     <el-button type="primary" @click="changeMedi">确 定</el-button>
   </div>
 </el-dialog>
@@ -507,7 +507,7 @@ export default {
                 }
               });
     },
-    deleteMedicine(id){  //删除药品
+    deleteMedicine(code){  //删除药品
       this.$confirm('确定删除此药品?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -515,7 +515,7 @@ export default {
           }).then(() => {
       this.$http.post('medicine/addOrUpdateMedicine',
                 {
-                  id:id,
+                  code:code,
                   isDeleted:1
                 })
               .then( (response) => {
@@ -544,6 +544,8 @@ export default {
     },
           add(){
             this.addDialog=true;
+            this.addMedicine={};
+             Vue.set(this.addMedicine,'medicineTypes', []);  
           },
           uploadSuccess(response, file, fileList){
             console.log(response);
@@ -567,14 +569,47 @@ export default {
          this.$message.error('上传失败');
       },
       beforeRemove(file, fileList){
+        if(this.addMedicine.imgIds && this.addMedicine.imgIds[0])
         this.$http.delete(`/file/deletePic/${this.addMedicine.imgIds[0]}`)
       .then( (response) => {
       console.log(response);
+       Vue.delete(this.addMedicine,'imgIds');  
       })
       .catch(function (response) {
         console.log(response);
       }) 
       },
+
+      changeuploadSuccess(response, file, fileList){
+            console.log(response);
+            if(response.statusCode===200){
+              console.log(fileList)
+              Vue.set(this.changeMedicine,'imgIds', [response.data.id]);  
+              this.$message({
+                message: '上传成功',
+                type: 'success'
+              });
+            }else{ 
+               file.status='fail';
+               this.$message.error('上传失败');
+            }
+          },
+      changeonError(err,file,fileList){
+        console.log(fileList)
+         this.$message.error('上传失败');
+      },
+      changebeforeRemove(file, fileList){
+        if(this.changeMedicine.imgIds && this.changeMedicine.imgIds[0])
+        this.$http.delete(`/file/deletePic/${this.changeMedicine.imgIds[0]}`)
+      .then( (response) => {
+      console.log(response);
+       Vue.delete(this.changeMedicine,'imgIds');  
+      })
+      .catch(function (response) {
+        console.log(response);
+      }) 
+      },
+
       submint(){
         this.$refs.addForm.validate((valid) => {
           if (valid) {

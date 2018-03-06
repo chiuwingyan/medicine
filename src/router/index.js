@@ -1,25 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/login'
-import Main from '@/components/main'
-import Root from '@/components/root/root'
-import Cashier from '@/components/cashier/cashier'
-import Manager from '@/components/manager/manager'
-import purchaseExl from '@/components/root/purchase-exl'
-import medicineList from '@/components/root/medicine-list'
-import userList from '@/components/root/user-list'
-import factory from '@/components/common/factory'
-import returnFactoryExl from '@/components/root/returnFactory-exl'
-import sellReturn from '@/components/root/sellReturn-exl'
-import sellRecord from '@/components/root/sellRecord-exl'
-import Factory  from '@/components/common/factory'
-import saleroomGraph from '@/components/common/saleroom-graph'
-import salesVolumeGraph from '@/components/common/sales-volume-graph'
+import Login from 'components/login'
+import Main from 'components/main'
+import Root from 'components/root/root'
+import Cashier from 'components/cashier/cashier'
+import Manager from 'components/manager/manager'
+import purchaseExl from 'components/root/purchase-exl'
+import medicineList from 'components/root/medicine-list'
+import userList from 'components/root/user-list'
+import factory from 'components/common/factory'
+import returnFactoryExl from 'components/root/returnFactory-exl'
+import sellReturn from 'components/root/sellReturn-exl'
+import sellRecord from 'components/root/sellRecord-exl'
+import Factory  from 'components/common/factory'
+import saleroomGraph from 'components/common/saleroom-graph'
+import salesVolumeGraph from 'components/common/sales-volume-graph'
 //仓库管理员
-import managerWorking from '@/components/manager/manager-working'
-import purchase from '@/components/manager/purchase'
-import mediType from '@/components/common/medi-type'
-import returntoFactory from '@/components/manager/returntoFactory'
+import managerWorking from 'components/manager/manager-working'
+import purchase from 'components/manager/purchase'
+import mediType from 'components/common/medi-type'
+import returntoFactory from 'components/manager/returntoFactory'
 Vue.use(Router)
 
 export default new Router({
@@ -149,7 +149,7 @@ export default new Router({
           component: managerWorking,
           name: '我的工作台',
           redirect: {
-            name: '药品进货'
+            name: '药品进货及药品管理'
           },
           children:[
             {

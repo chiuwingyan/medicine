@@ -30,6 +30,7 @@ const downloadUrl = url => {
 }
 axios.interceptors.request.use(function (config) {
   loading = Loading.service({ fullscreen: true, text: '疯狂加载中' });
+  console.log(router.match(location));
   if (localStorage.getItem('token') != null && router.match(location).hash !== '#/login'){
     config.headers['Authorization']= `Bearer ${localStorage.getItem('token')}`;
   }

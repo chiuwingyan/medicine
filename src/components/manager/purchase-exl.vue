@@ -1,6 +1,6 @@
 <template>
   <div >
-  <formExl @search="getList" @export="exportExl" :showMyself="showMyself"/>
+  <formExl @search="getList" @export="exportExl" :showMyself="true"/>
    <el-table
     :data="tableData"
     border
@@ -16,22 +16,31 @@
     </el-table-column>
     <el-table-column
       prop="num"
-      label="退货数量">
+      label="进货数量">
     </el-table-column>
      <el-table-column
-      prop="price"
-      label="退货单价">
+      prop="purchaseMoney"
+      label="进货单价">
     </el-table-column>
     <el-table-column
-      prop="totalPrice"
-      label="退货总额">
+      prop="totalMoney"
+      label="进货总额">
     </el-table-column>
     <el-table-column
-      prop="createTime"
-      label="退货时间">
+      prop="purchaseDate"
+      label="进货时间">
     </el-table-column>
     <el-table-column
-      prop="operator"
+      prop="isReturns"
+      label="是否已退货">
+       <template slot-scope="scope">
+        <el-tag
+          :type="scope.row.isReturns=== 0 ? 'primary' : 'danger'"
+          close-transition>{{scope.row.isReturns===0?'否':'是'}}</el-tag>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="operatorName"
       label="操作员">
     </el-table-column>
   </el-table>
@@ -46,23 +55,15 @@
 <script>
 import formExl from '@/components/common/form-exl'
 export default {
-  props:{
-    userId:{
-    },
-    showMyself:{
-      type:Boolean,
-      default:false
-    }
-  },
   created(){
-   this.getreturnFactotyList();
+   this.getPurchaseList();
   },
   data(){
     return {
       tableData:[],
       page:{
         pageNo: 1,
-        pageSize:5,
+        pageSize:6,
         totalCount: null,
         pageCount:null,
         },
@@ -78,9 +79,19 @@ export default {
     formExl
   },
   methods:{
+    test(){
+      //console.log('route',this.$route);
+        this.$http.get('medicine/getMedicineList')
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (response) {
+          console.log(response);
+        });
+        },
       changepage(val){
         this.page.pageNo=val;
-        this.getreturnFactotyList();
+        this.getPurchaseList();
       },
       getList(searchObj){
       this.page.pageNo=1;
@@ -88,10 +99,10 @@ export default {
       this.searchObj.realName=searchObj.realName;
       this.searchObj.date=searchObj.date;
       this.searchObj.manufacturerId=searchObj.manufacturerId;
-      this.getreturnFactotyList();
+      this.getPurchaseList();
       },
-      getreturnFactotyList(){
-          this.$http.get('storage/getReturnsManufacturerList',
+      getPurchaseList(){
+          this.$http.get('storage/getPurchaseList',
         {
           params: {
             page: this.page.pageNo,
@@ -101,7 +112,7 @@ export default {
             startTime:this.searchObj.date && this.searchObj.date[0],
             endTime:this.searchObj.date && this.searchObj.date[1],
             manufacturerId:this.searchObj.manufacturerId,
-            userId:this.userId&&this.userId
+            userId:localStorage.getItem('userId')
           }
         })
       .then( (response) => {
@@ -123,7 +134,7 @@ export default {
              this.$message.error('当前条件下列表为空，无法导出报表！');
              return ;
         }
-        this.$http.get('storage/getReturnsToManufacturerExcel',
+        this.$http.get('storage/getPurchaseExcel',
         {
           params: {
            startTime:this.searchObj.date && this.searchObj.date[0],
@@ -131,7 +142,7 @@ export default {
            medicineName:this.searchObj.medicineName,
            userName:this.searchObj.realName,
            manufacturerId:this.searchObj.manufacturerId,
-           userId:this.userId&&this.userId
+           userId:localStorage.getItem('userId')
           }
         })
       .then( (response) => {

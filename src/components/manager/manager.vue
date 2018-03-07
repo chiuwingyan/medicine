@@ -9,13 +9,16 @@
   text-color="#fff"
   active-text-color="#ffd04b" router>
   <div class="title"><span class="header">药店管理系统 <span class="type">仓库管理员版</span></span></div>
-  <el-menu-item index="1">处理中心</el-menu-item>
+  <el-submenu index="3">
+    <template slot="title">统计报表</template>
+    <el-menu-item index="/manager/formExl/purchase-exl">我的进货统计报表</el-menu-item>
+    <el-menu-item index="/manager/formExl/return-exl">我的退货统计报表</el-menu-item>
+    </el-submenu>
   <el-submenu index="2">
     <template slot="title">我的工作台</template>
     <el-menu-item index="/manager/manager-working/purchase">药品进货及药品管理</el-menu-item>
     <el-menu-item index="/manager/manager-working/returntoFactory">药品退货</el-menu-item>
     </el-submenu>
-  <el-menu-item index="3" disabled>消息中心</el-menu-item>
   <el-menu-item index="/manager/main/manager">首页</el-menu-item>
 </el-menu>
 <el-main style="height:93%;" class="under">

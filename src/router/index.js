@@ -20,6 +20,9 @@ import managerWorking from 'components/manager/manager-working'
 import purchase from 'components/manager/purchase'
 import mediType from 'components/common/medi-type'
 import returntoFactory from 'components/manager/returntoFactory'
+const exlForm= r => require.ensure([], () => r(require('components/manager/exlForm')), 'chunkname1')
+const purchaseExlM=r => require.ensure([], () => r(require('components/manager/purchase-exl')), 'chunkname1')
+const returnExl=r => require.ensure([], () => r(require('components/manager/return-exl')), 'chunkname1')
 Vue.use(Router)
 
 export default new Router({
@@ -164,6 +167,32 @@ export default new Router({
               path: 'returntoFactory',
               component: returntoFactory,
               name: '药品退货',
+              meta: {
+                requireAuth: true,
+              },
+            }
+          ]
+        },
+        {
+          path: 'formExl',
+          component: exlForm,
+          name: '统计报表',
+          redirect: {
+            name: '我的进货统计报表'
+          },
+          children: [
+            {
+              path: 'purchase-exl',
+              component: purchaseExlM,
+              name: '我的进货统计报表',
+              meta: {
+                requireAuth: true,
+              },
+            },
+           {
+              path: 'return-exl',
+              component: returnExl,
+              name: '我的退货统计报表',
               meta: {
                 requireAuth: true,
               },

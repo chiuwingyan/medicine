@@ -23,6 +23,10 @@ import returntoFactory from 'components/manager/returntoFactory'
 const exlForm= r => require.ensure([], () => r(require('components/manager/exlForm')), 'chunkname1')
 const purchaseExlM=r => require.ensure([], () => r(require('components/manager/purchase-exl')), 'chunkname1')
 const returnExl=r => require.ensure([], () => r(require('components/manager/return-exl')), 'chunkname1')
+const cashierWorking = r => require.ensure([], () => r(require('components/cashier/cashier-working')), 'chunkname1')
+const sell = r => require.ensure([], () => r(require('components/cashier/sell')), 'chunkname1')
+const casellReturn = r => require.ensure([], () => r(require('components/cashier/sell-return')), 'chunkname1')
+
 Vue.use(Router)
 
 export default new Router({
@@ -132,7 +136,86 @@ export default new Router({
     },
     {
       path: '/cashier',
-      component: Cashier
+      component: Cashier,
+      redirect: '/cashier/main/cashier',
+        children: [{
+            path: 'main/:type',
+            component: Main,
+            name: '首页',
+            meta: {
+              requireAuth: true,
+            },
+          },
+          {
+            path: 'cashier-working',
+            component: cashierWorking,
+            name: '我的工作台',
+            redirect: {
+              name: '药品销售及药品列表'
+            },
+            children: [{
+                path: 'sell',
+                component: sell,
+                name: '药品销售及药品列表',
+
+                meta: {
+                  requireAuth: true,
+                },
+              },
+              {
+                path: 'sell-return',
+                component: casellReturn,
+                name: '药品退货',
+                meta: {
+                  requireAuth: true,
+                },
+              }
+            ]
+          },
+          {
+            path: 'formExl',
+            component: exlForm,
+            name: '统计报表',
+            redirect: {
+              name: '我的进货统计报表'
+            },
+            children: [{
+                path: 'purchase-exl',
+                component: purchaseExlM,
+                name: '我的进货统计报表',
+                meta: {
+                  requireAuth: true,
+                },
+              },
+              {
+                path: 'return-exl',
+                component: returnExl,
+                name: '我的退货统计报表',
+                meta: {
+                  requireAuth: true,
+                },
+              }
+            ]
+          },
+          {
+            path: 'factory',
+            component: factory,
+            name: '厂商管理',
+            meta: {
+              requireAuth: true,
+            },
+          },
+          {
+            path: 'medi-type',
+            component: mediType,
+            name: '药品类型管理',
+            meta: {
+              requireAuth: true,
+            },
+          },
+
+        ]
+
     },
     {
       path: '/manager',

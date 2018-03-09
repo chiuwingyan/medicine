@@ -101,7 +101,12 @@ export default {
       })
       },
       goList(){
-        this.$router.push('/root/medicine-list');
+        if(localStorage.getItem('roleId')==2){
+          this.$router.push('/manager/manager-working/purchase');
+        }else if(localStorage.getItem('roleId')==1){
+          this.$router.push('/root/medicine-list');
+        }
+       
       }
   },
   mounted(){

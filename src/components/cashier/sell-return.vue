@@ -32,12 +32,12 @@
       label="销售时间">
     </el-table-column>
      <el-table-column
-      prop="isReturns"
+      prop="isReturn"
       label="是否已退货">
        <template slot-scope="scope">
         <el-tag
-          :type="scope.row.isReturns=== 0 ? 'primary' : 'danger'"
-          close-transition>{{scope.row.isReturns===0?'否':'是'}}</el-tag>
+          :type="scope.row.isReturn=== 0 ? 'primary' : 'danger'"
+          close-transition>{{scope.row.isReturn===0?'否':'是'}}</el-tag>
       </template>
     </el-table-column>
     <el-table-column
@@ -48,7 +48,7 @@
       prop=""
       label="操作">
        <template slot-scope="scope">
-          <el-button v-if="scope.row.isReturns===0"
+          <el-button v-if="scope.row.isReturn===0"
           size="mini"
          type="success"   @click="purchaseReturn(scope.row.sellRecordId)">点击退货</el-button>
           <el-button v-else
@@ -172,15 +172,15 @@ export default {
         console.log(response);
       })
       },
-      purchaseReturn(purchaseId){
+      purchaseReturn(sellRecordId){
       this.$confirm('确定要将该次销售的药品全部退货？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-                this.$http.post('storage/returnToManufacturer',
+                this.$http.post('storage/returns',
               {
-                 purchaseId:purchaseId
+                 sellRecordId:sellRecordId
               })
             .then( (response) => {
               //console.log(response);

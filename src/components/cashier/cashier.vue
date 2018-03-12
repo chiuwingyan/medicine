@@ -11,13 +11,13 @@
   <div class="title"><span class="header">药店管理系统 <span class="type">销售员版</span></span></div>
   <el-submenu index="3">
     <template slot="title">统计报表</template>
-    <el-menu-item index="/manager/formExl/purchase-exl">我的销售统计报表</el-menu-item>
-    <el-menu-item index="/manager/formExl/return-exl">我的退货统计报表</el-menu-item>
+    <el-menu-item index="/cashier/cashier-form-exl/sell-exl">我的销售统计报表</el-menu-item>
+    <el-menu-item index="/cashier/cashier-form-exl/return-exl">我的退货统计报表</el-menu-item>
     </el-submenu>
   <el-submenu index="2">
     <template slot="title">我的工作台</template>
     <el-menu-item index="/cashier/cashier-working/sell">药品销售及药品列表</el-menu-item>
-    <el-menu-item index="/manager/manager-working/returntoFactory">药品退货</el-menu-item>
+    <el-menu-item index="/cashier/cashier-working/sell-return">药品退货</el-menu-item>
     </el-submenu>
   <el-menu-item index="/cashier/main/cashier">首页</el-menu-item>
 </el-menu>
@@ -30,8 +30,8 @@
       <span slot="title">查看销售统计图</span>
     </template>
     <el-menu-item-group>
-      <el-menu-item index="/manager/factory">查看药品销量统计图</el-menu-item>
-      <el-menu-item index="/manager/medi-type">查看药店销额统计图</el-menu-item>
+      <el-menu-item index="/cashier/medicine-sell-graph">查看药品销量统计图</el-menu-item>
+      <el-menu-item index="/cashier/salesroom-graph">查看药店销额统计图</el-menu-item>
     </el-menu-item-group>
   </el-submenu>
 </el-menu>

@@ -1,6 +1,6 @@
 <template>
   <div >
-  <formExl @search="getList" @export="exportExl"/>
+  <formExl @search="getList" @export="exportExl" :showMyself="showMyself"/>
    <el-table
     :data="tableData"
     border
@@ -46,6 +46,14 @@
 <script>
 import formExl from '@/components/common/form-exl'
 export default {
+   props:{
+    userId:{
+    },
+    showMyself:{
+      type:Boolean,
+      default:false
+    }
+  },
   created(){
    this.getreturnFactotyList();
   },
@@ -92,7 +100,8 @@ export default {
             userName:this.searchObj.realName,
             startTime:this.searchObj.date && this.searchObj.date[0],
             endTime:this.searchObj.date && this.searchObj.date[1],
-            manufacturerId:this.searchObj.manufacturerId
+            manufacturerId:this.searchObj.manufacturerId,
+            userId:this.userId&&this.userId
           }
         })
       .then( (response) => {
@@ -121,7 +130,8 @@ export default {
            endTime:this.searchObj.date && this.searchObj.date[1],
            medicineName:this.searchObj.medicineName,
            userName:this.searchObj.realName,
-           manufacturerId:this.searchObj.manufacturerId
+           manufacturerId:this.searchObj.manufacturerId,
+           userId:this.userId&&this.userId
           }
         })
       .then( (response) => {

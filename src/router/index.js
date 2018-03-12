@@ -26,6 +26,11 @@ const returnExl=r => require.ensure([], () => r(require('components/manager/retu
 const cashierWorking = r => require.ensure([], () => r(require('components/cashier/cashier-working')), 'chunkname1')
 const sell = r => require.ensure([], () => r(require('components/cashier/sell')), 'chunkname1')
 const casellReturn = r => require.ensure([], () => r(require('components/cashier/sell-return')), 'chunkname1')
+const cashierFormExl = r => require.ensure([], () => r(require('components/cashier/cashier-form-exl')), 'chunkname1')
+const cashierSellExl = r => require.ensure([], () => r(require('components/cashier/sell-exl')), 'chunkname1')
+const cashierReturnExl = r => require.ensure([], () => r(require('components/cashier/return-exl')), 'chunkname1')
+const medicineSellGraph= r => require.ensure([], () => r(require('components/cashier/medicine-sell-graph')), 'chunkname1')
+const salesroomGraph = r => require.ensure([], () => r(require('components/cashier/salesroom-graph')), 'chunkname1')
 
 Vue.use(Router)
 
@@ -173,24 +178,24 @@ export default new Router({
             ]
           },
           {
-            path: 'formExl',
-            component: exlForm,
+            path: 'cashier-form-exl',
+            component: cashierFormExl,
             name: '统计报表',
             redirect: {
-              name: '我的进货统计报表'
+              name: '我的销售统计报表'
             },
             children: [{
-                path: 'purchase-exl',
-                component: purchaseExlM,
-                name: '我的进货统计报表',
+                path: 'sell-exl',
+                component: cashierSellExl,
+                name: '我的销售统计报表',
                 meta: {
                   requireAuth: true,
                 },
               },
               {
                 path: 'return-exl',
-                component: returnExl,
-                name: '我的退货统计报表',
+                component: cashierReturnExl,
+                name: '我的销售退货统计报表',
                 meta: {
                   requireAuth: true,
                 },
@@ -213,7 +218,22 @@ export default new Router({
               requireAuth: true,
             },
           },
-
+          {
+            path: 'medicine-sell-graph',
+            component: medicineSellGraph,
+            name: '查看药品销量统计图',
+            meta: {
+              requireAuth: true,
+            },
+          },
+          {
+            path: 'salesroom-graph',
+            component: salesroomGraph,
+            name: '查看药店销额统计图',
+            meta: {
+              requireAuth: true,
+            },
+          },
         ]
 
     },

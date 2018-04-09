@@ -152,11 +152,6 @@ export default {
     that.formInline.medicineType=type.data.data.data;
     that.formInline.manufacturer=fact.data.data.data;
   }));
-   this.$notify({
-          title: '提示',
-          message: '如果需要进货的药品不在药品列表内，请先进行“添加药品”操作哦！',
-          duration: 0
-        });
   },
   computed:{
     img(){

@@ -136,7 +136,7 @@ export default {
        type: 'success',
         message: '删除成功!'
         });
-        this.getUserlist();     //删除成功后重新获取用户列表
+        this.getFactory();    //删除成功后重新获取用户列表
       }else{
         this.$message.error(response.data.userMsg);
       }

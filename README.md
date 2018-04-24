@@ -31,13 +31,13 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 9、药品类型管理
 
 项目部分截图如下：
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/login.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/1.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/2.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/3.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/4.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/5.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/6.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/7.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/8.png)
-![Alt text](https://github.com/chiuwingyan/medicine/blob/master/img/9.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/login.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/1.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/2.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/3.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/4.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/5.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/6.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/7.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/8.png)
+![Alt text](https://github.com/chiuwingyan/medicine/blob/master/src/imge/9.png)
